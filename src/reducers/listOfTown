@@ -1,0 +1,17 @@
+const initialState = {
+    name: ''
+};
+
+export default function listOfTown(state=initialState, action) {
+    switch (action.type) {
+        case 'ADD_NEW_TOWN':
+            return {...state, name: action.name};
+
+        case 'REMOWE_CURRENT_TOWN':
+            return state;
+        default:
+            return initialState;
+
+    }
+}
+
