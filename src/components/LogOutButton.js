@@ -1,17 +1,44 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import * as townInDatabase from "../actions/addListToFirebase";
+import {compose} from "redux";
+import {firestoreConnect} from "react-redux-firebase";
+import {authActions} from "../actions";
+import {Redirect} from "react-router";
+import {Link} from "react-router-dom";
 
 class LogOutButton extends Component {
   render() {
-    return <button className={this.props.className}>LogOut</button>;
+    if (this.props.isEmpty) {
+      return <Redirect to='/'/>
+    }
+    return (
+        <div>
+            <Link to='/users-weather'>profile</Link>
+          <button onClick={this.props.signOut} className={this.props.className}>LogOut</button>
+        </div>
+
+    );
   }
 }
 
 const mapStateToProps = state => {
-  return {};
+  console.log(state);
+  return {
+    isEmpty: state.firebase.auth.isEmpty
+
+  };
 };
 
-export default connect(
-  mapStateToProps,
-  null
+const mapDispatchToProps = dispatch => {
+  return {
+    signOut: () => dispatch(authActions.signOut())
+  };
+};
+
+export default
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+
 )(LogOutButton);

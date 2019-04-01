@@ -6,7 +6,7 @@ import { firestoreReducer } from 'redux-firestore';
 import weatherList from './getWeather';
 import searchParams from './searchParams';
 import listOfTown from './listOfTown';
-import signIn from './signIn';
+import authReducer from './authReducer';
 
 const reducers = combineReducers({
   firebase: firebaseReducer,
@@ -15,7 +15,7 @@ const reducers = combineReducers({
   weatherList,
   searchParams,
   listOfTown,
-  signIn
+  authReducer
 });
 
 export default reducers;

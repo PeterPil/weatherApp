@@ -2,7 +2,7 @@ const initialState = {
     name: ''
 };
 
-export default function listOfTown(state=initialState, action) {
+export default function listOfTown(state = initialState, action) {
     switch (action.type) {
         case 'ADD_NEW_TOWN':
             return {...state, name: action.name};
