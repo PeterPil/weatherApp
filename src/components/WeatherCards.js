@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {firestoreConnect} from 'react-redux-firebase';
 import {compose} from 'redux';
 import {Redirect} from "react-router";
-import WeatherCard from "./UsersWeatherCard";
+import WeatherCard from "./WeatherCard";
 
 class UsersWeather extends Component {
     render() {
@@ -22,22 +22,17 @@ class UsersWeather extends Component {
 
 const mapStateToProps = state => {
     return {
-        towns: state.firestore.ordered.listOfTown,
-        isEmpty: state.firebase.auth.isEmpty
 
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        getTowns: town => dispatch(userToFirebaseActions.getTowns(town))
     };
 };
 
-export default compose(
+export default
     connect(
         mapStateToProps,
         mapDispatchToProps
-    ),
-    firestoreConnect(() => [{collection: 'listOfTown'}])
 )(UsersWeather);

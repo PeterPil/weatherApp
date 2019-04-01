@@ -1,32 +1,46 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {searchWeather, townInDatabase} from '../actions';
+import {userToFirebaseActions, weatherActions} from '../actions';
 import {compose} from 'redux';
 import {firestoreConnect} from 'react-redux-firebase';
 
 class WeatherSearch extends Component {
-    changeTown = e => this.setState({town: e.target.value});
+    state = {
+        searchTown: '',
+        isDailyWeather: true,
+        searchError: null
+    }
     submitTown = e => {
         if (this.refs.refTown !== null) {
             const input = this.refs.refTown;
             const inputValue = input.value;
-            this.props.setSearchValue(input.value);
-            this.props.fetchWeather(this.props.searchParams);
-            this.props.getTowns(inputValue);
+            this.setState({searchTown: inputValue})
+            this.props.fetchWeather(inputValue);
         }
     };
+
+    addingTown = () => {
+        if(this.state.searchTown === '') {
+            return this.setState({searchError: "Can't add empty string"})
+        }
+        if(!this.props.list.length) {
+            return this.setState({searchError: "There is no city. Try again"})
+        }
+        this.props.addTownToFirebase(this.state.searchTown);
+        this.setState({searchError: null})
+    }
     cancelSearchTown = e => {
         e.preventDefault();
         this.refs.refTown.value = '';
-        this.props.resetSearch();
+        this.setState({searchTown: ''})
     };
     weatherType = e => {
         e.preventDefault();
 
-        this.props.setWeatherType(!this.props.searchParams.isDailyWeather);
     };
 
-    componentDidMount() {
+    handleChange = (e) => {
+        this.setState({ searchTown: e.target.value })
     }
 
     render() {
@@ -43,6 +57,7 @@ class WeatherSearch extends Component {
                             placeholder="Enter town"
                             ref="refTown"
                             className="weather-search-field__input"
+                            onChange={this.handleChange}
                         />
                         <button
                             type="submit"
@@ -53,6 +68,12 @@ class WeatherSearch extends Component {
                         </button>
                         <div onClick={this.cancelSearchTown}>x</div>
                         <div onClick={this.weatherType}>daily</div>
+                        <div className="add"
+                             onClick={this.addingTown}
+                        >
+                            add
+                        </div>
+                        {this.state.searchError && <p>{this.state.searchError}</p>}
                     </div>
                 </div>
             </section>
@@ -61,22 +82,20 @@ class WeatherSearch extends Component {
 }
 
 const mapStateToProps = state => {
+    console.log(state);
     return {
-        searchParams: state.searchParams
+        searchParams: state.searchParams,
+        list: state.weatherList.list
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        setSearchValue: value =>
-            dispatch({type: 'SET_SEARCH_VALUE', searchValue: value}),
-        setWeatherType: value =>
-            dispatch({type: 'SET_WEATHER_TYPE', isDailyWeather: value}),
-        resetSearch: () => dispatch({type: 'RESET_SEARCH'}),
+
         fetchWeather: search => {
-            dispatch(searchWeather.fetchWeather(search));
+            dispatch(weatherActions.fetchWeather(search));
         },
-        getTowns: town => dispatch(townInDatabase.getTowns(town))
+        addTownToFirebase: town => dispatch(userToFirebaseActions.addTownToFirebase(town))
     };
 };
 

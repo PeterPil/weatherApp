@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as townInDatabase from "../actions/addListToFirebase";
+import {userToFirebaseActions} from "../actions";
 import {compose} from "redux";
 import {firestoreConnect} from "react-redux-firebase";
 import {authActions} from "../actions";
@@ -23,7 +23,6 @@ class LogOutButton extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
     isEmpty: state.firebase.auth.isEmpty
 
