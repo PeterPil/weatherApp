@@ -4,7 +4,7 @@ const initialState = {
     success: null
 };
 
-export default function listOfTown(state = initialState, action) {
+export default function townToFirebaseReducer(state = initialState, action) {
     switch (action.type) {
         case 'ADD_NEW_TOWN':
             return {...state, name: action.name};

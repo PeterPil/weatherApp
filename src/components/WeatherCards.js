@@ -1,20 +1,18 @@
 import React, {Component} from 'react';
-import {userToFirebaseActions} from '../actions';
 import {connect} from 'react-redux';
-import {firestoreConnect} from 'react-redux-firebase';
-import {compose} from 'redux';
-import {Redirect} from "react-router";
+import filterWeather from './filterWeather';
 import WeatherCard from "./WeatherCard";
 
-class UsersWeather extends Component {
+class WeatherCards extends Component {
     render() {
-        if (this.props.isEmpty) {
-            return <Redirect to='/'/>
-        }
+        const {weather} = this.props;
         return (
             <section>
-                <div>UsersWeather</div>
-                {this.props.towns ? this.props.towns.map((town) => <WeatherCard town={town}/>): null}
+                <div>{weather.city.name}, {weather.city.country}</div>
+                {weather.list.length ?
+                    filterWeather(weather).map(item => <WeatherCard key={item.dt} info={item}/>)
+                    : null
+                }
             </section>
         );
     }
@@ -22,7 +20,7 @@ class UsersWeather extends Component {
 
 const mapStateToProps = state => {
     return {
-
+        weather: state.weatherReducer
     };
 };
 
@@ -35,4 +33,4 @@ export default
     connect(
         mapStateToProps,
         mapDispatchToProps
-)(UsersWeather);
+)(WeatherCards);

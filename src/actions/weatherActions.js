@@ -1,11 +1,11 @@
 import api from '../api';
-import {format} from 'date-fns';
+import { transliterate as tr } from 'transliteration';
 
 export const fetchWeather = searchValue => {
     return (dispatch, getState) => {
         const params = {
             appid: '228473111bbbe3a150c7076ed8f93d03',
-            q: searchValue
+            q: tr(searchValue)
         };
 
         return api
@@ -13,39 +13,23 @@ export const fetchWeather = searchValue => {
             .then(res => {
                 console.log(res);
                 if (res.status < 500) {
-                    // if (searchParams.isDailyWeather) {
-                    //     const currentWeather = res.data.list.filter(
-                    //         item =>
-                    //             format(item.dt_txt, 'dd') ===
-                    //             format(res.data.list[0].dt_txt, 'dd')
-                    //     );
-                    //     console.log(currentWeather);
-                    //
-                    //     return {
-                    //         status: res.status,
-                    //         list: currentWeather
-                    //     };
-                    // }
-                    // const fiveDayWeather = res.data.list.filter(
-                    //     item =>
-                    //         format(item.dt_txt, 'HH:mm:ss') ===
-                    //         format(res.data.list[0].dt_txt, 'HH:mm:ss')
-                    // );
+
                     return {
                         status: res.status,
-                        list: res.data.list
+                        list: res.data.list,
+                        city: res.data.city
                     };
                 } else {
                     console.log('Server Error!');
                     throw res;
                 }
             })
-            .then(({status, list}) => {
+            .then(({status, list, city}) => {
                 // console.log(list);
                 if (status === 200) {
 
                     console.log(list);
-                    return dispatch({type: 'SET_LIST_OF_WEATHER', list});
+                    return dispatch({type: 'SET_LIST_OF_WEATHER', list, city});
                 }
             })
             .catch(error => {
@@ -60,3 +44,11 @@ export const fetchWeather = searchValue => {
             });
     };
 };
+
+
+export const setWeatherType = ( weatherType ) => {
+    return dispatch => dispatch({type: 'SET_TYPE_OF_WEATHER', isDailyWeather: weatherType})
+};
+
+
+

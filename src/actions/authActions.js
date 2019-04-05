@@ -1,4 +1,3 @@
-// import firebase from "../Firebase/firebase";
 
 
 export const signIn = params => {
