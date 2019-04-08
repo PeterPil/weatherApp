@@ -1,0 +1,74 @@
+.weather-search {
+    display: block;
+    padding: 50px 0;
+    &__title {
+        font-size: 36px;
+        font-weight: bold;
+        text-transform: uppercase;
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    &-field {
+        width: 500px;
+        height: 60px;
+        font-size: 18px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        position: relative;
+        cursor: pointer;
+        &__input {
+            width: 60%;
+            font-size: 18px;
+            padding-right: 47px !important;
+
+        }
+        &__button {
+            font-size: 18px;
+            width: 40%;
+            border: none;
+            color: #141414;
+            background-color: #fff;
+            text-transform: uppercase;
+        }
+        &__cancel {
+            position: absolute;
+            top: 14px;
+            left: 53%;
+            font-size: 30px;
+            color: #fff;
+
+        }
+
+    }
+    &-params {
+        width: 500px;
+        display: block;
+        margin: 0 auto;
+
+    }
+
+}
+
+@-webkit-keyframes autofill {
+    to {
+        color: #fff;
+        background: transparent;
+    }
+}
+
+.input {
+    border: 1px solid #fff;
+    background-color: transparent;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: #fff;
+    &::placeholder {
+        color: #fff;
+    }
+    &:-webkit-autofill {
+        -webkit-animation-name: autofill;
+        -webkit-animation-fill-mode: both;
+    }
+}
+

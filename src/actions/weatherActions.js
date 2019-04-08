@@ -28,7 +28,7 @@ export const fetchWeather = searchValue => {
                 // console.log(list);
                 if (status === 200) {
 
-                    console.log(list);
+                    dispatch({type: 'SET_DAY_OF_WEATHER',weatherDay: list[0].dt_txt});
                     return dispatch({type: 'SET_LIST_OF_WEATHER', list, city});
                 }
             })
@@ -50,5 +50,8 @@ export const setWeatherType = ( weatherType ) => {
     return dispatch => dispatch({type: 'SET_TYPE_OF_WEATHER', isDailyWeather: weatherType})
 };
 
+export const setWeatherDay = ( date ) => {
+    return dispatch => dispatch({type: 'SET_DAY_OF_WEATHER', weatherDay: date})
+};
 
 

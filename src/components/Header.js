@@ -16,8 +16,8 @@ class Header extends Component {
                             <FontAwesomeIcon icon={faSmog}/>
                         </Link>
                         {this.props.isEmpty
-                            ? <LogButton className="header__button"/>
-                            : <LogOutButton className="header__button"/>
+                            ? <LogButton className="header-sign__btn"/>
+                            : <LogOutButton/>
                         }
 
 

@@ -2,10 +2,11 @@ import React, {Component} from 'react';
 import Header from './Header';
 import WeatherSearch from './WeatherSearch';
 import UsersWeather from './UsersWeather';
-import {Redirect, Route, Switch} from 'react-router';
+import {Route, Switch} from 'react-router';
 import SignIn from './SignIn';
 import connect from "react-redux/es/connect/connect";
 import Registration from "./Registration";
+import WeatherCards from "./WeatherCards";
 
 class Weather extends Component {
     render() {
@@ -18,21 +19,20 @@ class Weather extends Component {
                     <Route exact path="/" component={WeatherSearch}/>
                     <Route path="/registration" component={Registration}/>
                 </Switch>
-
+                {/*<Route path="/weather-town/:id" component={WeatherCards}/>*/}
             </div>
         );
     }
 }
+
 const mapStateToProps = state => {
-  return {
-    isEmpty: state.firebase.auth.isEmpty
-  };
+    return {
+        isEmpty: state.firebase.auth.isEmpty
+    };
 };
 
 
-export default
-  connect(
+export default connect(
     mapStateToProps,
     null
-
 )(Weather);

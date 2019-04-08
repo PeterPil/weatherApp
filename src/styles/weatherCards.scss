@@ -1,0 +1,29 @@
+.weather-cards {
+    width: 100%;
+    padding: 40px 0;
+
+    &__title {
+        font-size: 27px;
+    }
+    &-content {
+        margin-top: 30px;
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        &-item {
+            border: 1px solid #fff;
+            padding: 15px;
+            font-size: 18px;
+            &__main {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                &--center {
+                    justify-content: center;
+                }
+            }
+        }
+
+    }
+}

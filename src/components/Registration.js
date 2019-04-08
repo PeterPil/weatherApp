@@ -25,14 +25,33 @@ class Registration extends Component {
             return <Redirect to='/'/>
         }
         return (
-            <div>
-                <form onSubmit={this.handelSubmit}>
-                    <input type="email" id="email" onChange={this.handleChange}/>
-                    <input type="password" id="password" onChange={this.handleChange}/>
-                    <input type="submit" value="Registration"/>
-                </form>
-                {this.props.errorReg && <p>{this.props.errorReg}</p>}
-            </div>
+            <section className="registrations">
+                <div className="container">
+                    <div className="registrations-main">
+                        <form onSubmit={this.handelSubmit} className="registrations-form">
+                            <input type="email"
+                                   id="email"
+                                   onChange={this.handleChange}
+                                   className="input registrations-form__input"
+                            />
+                            <input type="password"
+                                   id="password"
+                                   onChange={this.handleChange}
+                                   className="input registrations-form__input"
+                            />
+                            <input type="submit"
+                                   value="Registration"
+                                   className="registrations-form__submit"
+                            />
+                        </form>
+                        {this.props.errorReg &&
+                        <p>
+                            {this.props.errorReg}
+                        </p>
+                        }
+                    </div>
+                </div>
+            </section>
 
         );
     }

@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {userToFirebaseActions, weatherActions} from '../actions';
-import {compose} from 'redux';
-import {firestoreConnect} from 'react-redux-firebase';
 import WeatherCards from "./WeatherCards";
+import {connect} from "react-redux";
+import {compose} from "redux";
+import {firestoreConnect} from "react-redux-firebase";
 
 class WeatherSearch extends Component {
     state = {
@@ -39,13 +41,15 @@ class WeatherSearch extends Component {
     };
     weatherType = e => {
         e.preventDefault();
-        this.props.setWeatherType(!this.props.isDailyWeather);
+        this.setState({
+            isDailyWeather: e.currentTarget.value
+        })
+        this.props.setWeatherType(e.currentTarget.value);
 
     };
 
     handleChange = (e) => {
         this.setState({searchTown: e.target.value})
-        console.log('!!!', e);
         if (e.keyCode === 13) {
             this.props.fetchWeather(e.target.value);
         }
@@ -69,9 +73,9 @@ class WeatherSearch extends Component {
                             type="text"
                             placeholder="Enter town"
                             ref="refTown"
-                            className="weather-search-field__input"
+                            className="input weather-search-field__input"
                             onChange={this.handleChange}
-                             onKeyPress={this.keyPress}
+                            onKeyPress={this.keyPress}
                         />
                         <button
                             type="submit"
@@ -81,15 +85,48 @@ class WeatherSearch extends Component {
                         >
                             Submit
                         </button>
-                        <div onClick={this.cancelSearchTown}>x</div>
+                        <FontAwesomeIcon onClick={this.cancelSearchTown}
+                                         icon={faTimes}
+                                         className="weather-search-field__cancel"
+                        />
+
+
+                    </div>
+                    <div className="weather-search-params">
+                        <div >
+                            <div>
+                                <label>
+                                    <input type="radio"
+                                           name="weatherType"
+                                           value="daily"
+                                           checked={this.state.isDailyWeather === "daily"}
+                                           onChange={this.weatherType}
+                                    />
+                                    Day weather
+                                </label>
+                            </div>
+                            <div>
+                                <label>
+                                    <input type="radio"
+                                           name="weatherType"
+                                           value=""
+                                           checked={this.state.isDailyWeather === ""}
+                                           onChange={this.weatherType}
+                                    />
+                                    5 Day weather
+                                </label>
+                            </div>
+
+                        </div>
                         <div onClick={this.weatherType}>daily</div>
                         <div className="add"
                              onClick={this.addingTown}
                         >
                             add
                         </div>
-                        {this.state.searchError && <p>{this.state.searchError}</p>}
                     </div>
+
+                    {this.state.searchError && <p>{this.state.searchError}</p>}
                     <WeatherCards/>
                 </div>
             </section>

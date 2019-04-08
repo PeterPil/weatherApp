@@ -17,6 +17,11 @@ export default function weatherReducer(state = initialState, action) {
                 ...state,
                 isDailyWeather: action.isDailyWeather
             };
+            case 'SET_DAY_OF_WEATHER':
+            return {
+                ...state,
+                weatherDay: action.weatherDay
+            };
         case 'RESET_LIST_OF_WEATHER':
             return {
                 ...state,

@@ -10,9 +10,13 @@ class LogOutButton extends Component {
       return <Redirect to='/'/>
     }
     return (
-        <div>
-            <Link to='/users-weather'>profile</Link>
-          <button onClick={this.props.signOut} className={this.props.className}>LogOut</button>
+        <div className="header-sign">
+            <Link to='/users-weather' className="header-sign__menu">profile</Link>
+          <a href="#"
+             onClick={this.props.signOut}
+             className="header-sign__btn">
+              LogOut
+          </a>
         </div>
 
     );

@@ -1,18 +1,44 @@
 @import 'reset';
 @import 'header';
+@import "weatherSearch";
+@import "weatherCards";
+@import "signIn";
+@import "registrations";
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 10px;
+}
+
 body {
-  color: black;
+    color: #ffffff;
+    font-family: "Fira Sans", sans-serif;
 }
 
-button {
-  width: 200px;
-  height: 100px;
+.wrap {
+    background: url(../images/1.jpg) no-repeat fixed;
+    background-position: 0 0;
+    background-size: cover;
+    overflow-y: scroll;
+    position: relative;
+    width: 100%;
+    z-index: 0;
+    height: 100vh;
+    &:before {
+        content: '';
+        position: fixed;
+        z-index: -1;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        opacity: .6;
+        mix-blend-mode: multiply;
+        background-color: #555555;
+    }
+
 }
 
-
-.container {
-  width: 1170px;
-  padding-left: 15px;
-  padding-right: 15px;
-  margin: 0 auto;
-}
