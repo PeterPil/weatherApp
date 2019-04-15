@@ -16,10 +16,9 @@ class Weather extends Component {
                 <Switch>
                     <Route path="/users-weather" component={UsersWeather}/>
                     <Route path="/sign-in" component={SignIn}/>
-                    <Route exact path="/" component={WeatherSearch}/>
+                    <Route path="/weather" component={WeatherSearch}/>
                     <Route path="/registration" component={Registration}/>
                 </Switch>
-                {/*<Route path="/weather-town/:id" component={WeatherCards}/>*/}
             </div>
         );
     }

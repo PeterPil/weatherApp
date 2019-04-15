@@ -4,7 +4,6 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faLongArrowAltUp} from '@fortawesome/free-solid-svg-icons';
 
 
-import convertTemperature from "./convertTemperaure";
 import {format} from "date-fns";
 import {weatherActions} from "../actions";
 
@@ -12,11 +11,10 @@ import {weatherActions} from "../actions";
 function WeatherCard(props) {
     const {info} = props;
     return (
-        <div className="col-lg-3">
-            <div className="weather-cards-content-item" onClick={() => {props.setWeatherDay(info.dt_txt); props.setWeatherType(true)}}>
+            <div className="weather-cards-content-item" onClick={() => {props.setWeatherDay(info.dt_txt); props.setWeatherType('daily')}}>
                 <div className="weather-cards-content-item__main weather-cards-content-item__main--center">
                     <p className="weather-cards-content-item__main-temp">
-                        {convertTemperature(info.main.temp)}&deg;C
+                        {Math.round(info.main.temp)}&deg;C
                     </p>
                     <img src={`https://openweathermap.org/img/w/${info.weather[0].icon}.png`}
                          alt=""
@@ -27,8 +25,8 @@ function WeatherCard(props) {
                         min/max
                     </p>
                     <p className="weather-cards-content-item__main-value">
-                        {convertTemperature(info.main.temp_min)}&deg;C
-                        /{convertTemperature(info.main.temp_max)}&deg;C
+                        {Math.round(info.main.temp_min)}&deg;C
+                        /{Math.round(info.main.temp_max)}&deg;C
                     </p>
                 </div>
                 <div className="weather-cards-content-item__main">
@@ -40,20 +38,20 @@ function WeatherCard(props) {
                                                                 style={{transform: `rotate(${info.wind.deg}deg)`}}/>
                     </p>
                 </div>
-                <div>{props.isDailyWeather
+                <div>
+                    {props.weatherType === 'daily'
                     ? format(info.dt_txt, 'HH:mm')
                     : format(info.dt_txt, 'DD MMMM YYYY')}
 
                 </div>
             </div>
-        </div>
 
     )
 }
 
 const mapStateToProps = state => {
     return {
-        isDailyWeather: state.weatherReducer.isDailyWeather,
+        weatherType: state.weatherReducer.weatherType,
     };
 };
 

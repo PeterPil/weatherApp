@@ -1,6 +1,16 @@
-export const addTownToFirebase = town => {
+export const addTownToFirebase = (town, townsList) => {
+
+
     return async (dispatch, getState, {firebase}) => {
+
+
         try {
+            const currentTown = await townsList.find(item => town === item.name);
+            if (currentTown) {
+                return dispatch({type: 'ADD_NEW_TOWN_ERROR', err: "This town is in your list"});
+            } else {
+                dispatch({type: 'ADD_NEW_TOWN_ERROR', err: null})
+            }
             const response = await firebase.firestore().collection('listOfTown')
                 .add({
                     name: town

@@ -63,7 +63,7 @@ class SignIn extends Component {
                             </div>
                             <p className="sign-in-form__redirect">
                                 Haven't account yet? Go there
-                                <Link to='/registration'
+                                <Link to='registration'
                                       className="sign-in-form__registrations"
                                 >
                                     >
@@ -80,7 +80,6 @@ class SignIn extends Component {
 }
 
 const mapStateToProps = state => {
-    console.log(state);
     return {
         isEmpty: state.firebase.auth.isEmpty,
         errorIn: state.authReducer.errorIn

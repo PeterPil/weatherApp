@@ -12,7 +12,7 @@ class Header extends Component {
             <header className="header">
                 <div className="container">
                     <div className="header-line">
-                        <Link to="/" className="header__logo">
+                        <Link to="/weather" className="header__logo">
                             <FontAwesomeIcon icon={faSmog}/>
                         </Link>
                         {this.props.isEmpty

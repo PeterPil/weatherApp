@@ -5,7 +5,8 @@ export const fetchWeather = searchValue => {
     return (dispatch, getState) => {
         const params = {
             appid: '228473111bbbe3a150c7076ed8f93d03',
-            q: tr(searchValue)
+            q: tr(searchValue),
+            units: 'metric',
         };
 
         return api
@@ -25,7 +26,6 @@ export const fetchWeather = searchValue => {
                 }
             })
             .then(({status, list, city}) => {
-                // console.log(list);
                 if (status === 200) {
 
                     dispatch({type: 'SET_DAY_OF_WEATHER',weatherDay: list[0].dt_txt});
@@ -47,7 +47,7 @@ export const fetchWeather = searchValue => {
 
 
 export const setWeatherType = ( weatherType ) => {
-    return dispatch => dispatch({type: 'SET_TYPE_OF_WEATHER', isDailyWeather: weatherType})
+    return dispatch => dispatch({type: 'SET_TYPE_OF_WEATHER', weatherType})
 };
 
 export const setWeatherDay = ( date ) => {
