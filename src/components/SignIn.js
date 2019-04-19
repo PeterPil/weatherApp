@@ -26,7 +26,7 @@ class SignIn extends Component {
 
     render() {
         if (!this.props.isEmpty) {
-            return <Redirect to='/users-weather'/>
+            return <Redirect to='/'/>
         }
         return (
             <section className="sign-in">
@@ -57,7 +57,7 @@ class SignIn extends Component {
                                 />
                                 <p className="sign-in-form__submit-text">or</p>
                                 <FontAwesomeIcon icon={faGoogle}
-                                                 onClick={() => this.props.signIn()}
+                                                 onClick={this.props.authGoogle}
                                                  className="sign-in-form__submit-google"
                                 />
                             </div>
@@ -88,7 +88,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        signIn: params => dispatch(authActions.signIn(params))
+        signIn: params => dispatch(authActions.signIn(params)),
+        authGoogle: () => dispatch(authActions.authWithGoogle())
     };
 };
 

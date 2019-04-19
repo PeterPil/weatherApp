@@ -7,31 +7,10 @@ import UsersCard from "./UsersCard";
 
 import AliceCarousel from 'react-alice-carousel'
 import "react-alice-carousel/lib/alice-carousel.css";
+import {Redirect, Route, Switch} from "react-router";
 import AddTownCard from "./AddTownCard";
-import {Redirect} from "react-router";
+import WeatherCardsCarousel from "./WeatherCardsCarousel";
 
-const TOWN = [
-    {
-        id: 1,
-        name: 'Ternopil'
-    },
-    {
-        id: 2,
-        name: 'Barcelona'
-    },
-    {
-        id: 3,
-        name: 'Rivne'
-    },
-    {
-        id: 4,
-        name: 'Tel Aviv'
-    },
-    {
-        id: 5,
-        name: 'Azerbaidzjan'
-    }
-];
 
 const responsive = {
     0: {
@@ -51,13 +30,31 @@ const responsive = {
     }
 };
 
-const stagePadding = {
-    paddingLeft: 15,
-    paddingRight: 15
-}
-
 
 class UsersWeather extends Component {
+
+    state = {
+        townName: 'some'
+    }
+
+    setUrlPath = (name) => {
+        this.setState({
+            townName: name
+        })
+    }
+
+    renderCards() {
+        return (this.props.testTowns.length
+            ? this.props.testTowns.map(town =>
+                <UsersCard town={town}
+                           testTowns={this.props.testTowns}
+                           key={town.id}
+                           setUrlPath={this.setUrlPath}
+                           path={this.props.match.path}
+                />)
+            : null)
+    }
+
     render() {
         if (this.props.isEmpty) {
             return <Redirect to='/'/>
@@ -68,20 +65,28 @@ class UsersWeather extends Component {
                     <div className="users-weather">
                         <h1 className="users-weather__title">UsersWeather</h1>
                         <div className="users-weather__items">
-                            {/*<AddTownCard/>*/}
-                            <AliceCarousel
-                                mouseDragEnabled
-                                responsive={responsive}
-                                infinite={false}
-                                stagePadding={stagePadding}
-                                items={
-                                    // TOWN ? TOWN.map((town) => <UsersCard town={town} key={town.id}/>) : null
-                                    this.props.towns ? this.props.towns.map((town) => <UsersCard town={town} key={town.id}/>): null
-                                }
-                            />
+                            <Switch>
+                                <Route exact path={`${this.props.match.path}`} render={() => {
+                                return (<AliceCarousel
+                                    mouseDragEnabled
+                                    responsive={responsive}
+                                    infinite={false}
+                                    items={
+                                        [
+                                            (<AddTownCard testTowns={this.props.testTowns}/>),
+                                            ...this.renderCards()
+                                        ]
+
+
+                                    }
+                                />)
+                            }}/>
+                            <Route exact path={`${this.props.match.path}/${this.state.townName}`} component={WeatherCardsCarousel}/>
+                            </Switch>
 
 
                         </div>
+
                     </div>
                 </div>
 
@@ -92,7 +97,9 @@ class UsersWeather extends Component {
 
 const mapStateToProps = state => {
     return {
-        towns: state.firestore.ordered.listOfTown,
+
+        testTowns: state.firestore.ordered.usersTown[0].town || [],
+        towns: state.firestore.ordered.listOfTown || [],
         isEmpty: state.firebase.auth.isEmpty
 
     };
@@ -109,5 +116,9 @@ export default compose(
         mapStateToProps,
         mapDispatchToProps
     ),
-    firestoreConnect(() => [{collection: 'listOfTown'}])
+    firestoreConnect(
+        [{
+            collection: 'listOfTown'
+        }]
+    ),
 )(UsersWeather);

@@ -24,7 +24,6 @@ class Registration extends Component {
         if (!this.props.isEmpty) {
             return <Redirect to='/'/>
         }
-        console.log(this.props.isEmpty);
         return (
             <section className="registrations">
                 <div className="container">

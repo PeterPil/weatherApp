@@ -7,28 +7,29 @@ import {compose} from "redux";
 import {firestoreConnect} from "react-redux-firebase";
 import {Link, Route} from "react-router-dom";
 import WeatherCards from "./WeatherCards";
+import {withRouter} from "react-router";
 
 class WeatherSearch extends Component {
+
     state = {
         searchTown: '',
         weatherType: 'daily',
         searchError: null,
-        errTownAdd: false
-    }
+        errTownAdd: false,
+        redirect: false
+    };
+    refTown = React.createRef();
+
+
     submitTown = e => {
-        if (this.refs.refTown !== null) {
-            const input = this.refs.refTown;
-            const inputValue = input.value;
-            this.setState({searchTown: inputValue});
-            this.props.fetchWeather(inputValue);
-            this.props.setWeatherTypeReducer(this.state.weatherType);
+        e.preventDefault();
+        this.props.fetchWeather(this.state.searchTown);
+        this.props.setWeatherTypeReducer(this.state.weatherType);
+        this.props.history.push(`${this.props.match.path}/${this.state.searchTown}`)
 
-
-        }
     };
 
     addingTown = () => {
-        console.log(this.props.isEmpty);
         if (!this.props.isEmpty) {
             if (this.state.searchTown === '') {
                 return this.setState({searchError: "Can't add empty string"})
@@ -36,7 +37,7 @@ class WeatherSearch extends Component {
             if (!this.props.list.length) {
                 return this.setState({searchError: "There is no city. Try again"})
             }
-            this.props.addTownToFirebase(this.state.searchTown, this.props.towns);
+            this.props.addTownToFirebase(this.state.searchTown, this.props.testTowns);
             this.setState({searchError: null})
             return this.setState({
                 errTownAdd: false
@@ -48,14 +49,10 @@ class WeatherSearch extends Component {
 
     }
     cancelSearchTown = e => {
-        e.preventDefault();
-        this.refs.refTown.value = '';
+        this.refTown.current.value = '';
         this.setState({searchTown: ''})
     };
     setWeatherType = e => {
-        e.preventDefault();
-        console.log("event", e.target.checked);
-        console.log("event value", e.target.value);
         this.setState({
             weatherType: e.currentTarget.value
         })
@@ -64,16 +61,10 @@ class WeatherSearch extends Component {
 
     handleChange = (e) => {
         this.setState({searchTown: e.target.value})
-    }
-    keyPress = (e) => {
-        if (e.key === 'Enter') {
-            this.props.fetchWeather(this.state.searchTown);
-        }
-    }
+    };
+
 
     render() {
-        console.log(this.props)
-        console.log("checked", this.state.weatherType)
         return (
             <section className="weather-search">
                 <div className="container">
@@ -81,37 +72,33 @@ class WeatherSearch extends Component {
                         Check the weather in your town
                     </h1>
                     <div className="weather-search-container">
-                        <div className="weather-search-field">
+                        <form className="weather-search-field" onSubmit={this.submitTown}>
                             <input
                                 type="text"
                                 placeholder="Enter town"
-                                ref="refTown"
+                                ref={this.refTown}
                                 className="input weather-search-field__input"
                                 onChange={this.handleChange}
-                                onKeyPress={this.keyPress}
                             />
-                            <Link to={`${this.props.match.path}/${this.state.searchTown}`}
-                                  onClick={this.submitTown}
-                                  className="weather-search-field__button"
-                            >
-                                Submit
-                            </Link>
+                            <button type="submit" className="weather-search-field__button">
+                                submit
+                            </button>
                             <FontAwesomeIcon onClick={this.cancelSearchTown}
                                              icon={faTimes}
                                              className="weather-search-field__cancel"
                             />
 
 
-                        </div>
+                        </form>
                         <div className="weather-search-params">
                             <div className="weather-search-params-type">
                                 <label className="weather-search-params-type__item">
                                     <input type="radio"
                                            name="weatherType"
                                            value="daily"
-                                           // checked={this.state.weatherType === "daily"}
+                                           checked={this.state.weatherType === "daily"}
                                            onChange={this.setWeatherType}
-                                           // className="weather-search-params-type__item-input"
+                                           className="weather-search-params-type__item-input"
                                     />
                                     Day weather
                                     <span className="weather-search-params-type__item-check"></span>
@@ -121,10 +108,9 @@ class WeatherSearch extends Component {
                                     <input type="radio"
                                            name="weatherType"
                                            value="fiveDay"
-                                           // checked
-                                           // checked={this.state.weatherType === "fiveDay"}
+                                           checked={this.state.weatherType === "fiveDay"}
                                            onChange={this.setWeatherType}
-                                           // className="weather-search-params-type__item-input"
+                                           className="weather-search-params-type__item-input"
                                     />
                                     5 Day weather
                                     <span className="weather-search-params-type__item-check"></span>
@@ -150,7 +136,8 @@ class WeatherSearch extends Component {
                             </p>
                         }
                     </div>
-                    {this.props.list.length ? <Route path={`${this.props.match.path}/:townid`} component={WeatherCards}/> : null}
+                    {this.props.list.length ?
+                        <Route path={`${this.props.match.path}/:townid`} component={WeatherCards}/> : null}
 
 
                 </div>
@@ -161,6 +148,7 @@ class WeatherSearch extends Component {
 
 const mapStateToProps = state => {
     return {
+        testTowns: state.firestore.ordered.usersTown[0].town || [],
         isEmpty: state.firebase.auth.isEmpty,
         list: state.weatherReducer.list,
         weatherType: state.weatherReducer.weatherType,
@@ -179,6 +167,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default compose(
+    withRouter,
     connect(
         mapStateToProps,
         mapDispatchToProps
