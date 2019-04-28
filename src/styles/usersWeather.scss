@@ -1,35 +1,86 @@
 .users {
-    &-section {
-        width: 100%;
-        padding-top: 20px;
-        padding-bottom: 20px;
+  &-section {
+    width: 100%;
+  }
+  &-weather {
+    display: block;
+    &__title {
+      font-size: 26px;
+      text-align: center;
     }
-    &-weather {
-        display: block;
-        &__title {
-            font-size: 26px;
-            text-align: center;
-        }
-        &__items {
-            display: inline-flex;
-            width: 100%;
-        }
+    &__items {
+      display: inline-flex;
+        margin-top: 20px;
+      width: 100%;
     }
-    &-card {
-        border: 2px solid #fff;
-        padding: 15px;
-        margin: 0 15px;
+  }
+  &-card {
+    border: 2px solid #fff;
+    padding: 30px 15px;
+    margin: 0 15px;
 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 200px;
+    &-form {
+        width: 100%;
+        max-width: 200px;
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: space-between;
-        height: 200px;
-        &__title {
-            font-size: 18px;
-        }
         &__btn {
-
+            display: inline-block;
+        }
+        &__input {
+            height: 33px;
+            width: 100%;
+        }
+        &__submit {
+            width: 100%;
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-around;
+            &-btn {
+                border-radius: 3px;
+            }
         }
     }
+    &__title {
+      font-size: 18px;
+      a {
+        color: #fff;
+      }
+    }
+    &__add {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      &-item {
+        font-size: 20px;
+        border: 3px solid #fff;
+        border-radius: 50%;
+        width: 100px !important;
+        height: 100px;
+        position: relative;
+        &:after,
+        &:before {
+          content: "";
+          position: absolute;
+          top: 50%;
+          left: 11%;
+          width: 80%;
+          height: 3px;
+          background-color: #fff;
+        }
+        &:before {
+          transform: rotate(90deg);
+        }
+      }
+    }
+    &__btn {
+    }
+  }
 }

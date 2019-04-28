@@ -2,17 +2,20 @@ import filterWeather from "./filterWeather";
 import WeatherCard from "./WeatherCard";
 import AliceCarousel from "react-alice-carousel";
 import React from "react";
-import connect from "react-redux/es/connect/connect";
+import {connect} from 'react-redux';
 
 const resp = {
     0: {
         items: 1
     },
-    992: {
-        items: 4
-    },
-    550: {
+    768: {
         items: 2
+    },
+    992: {
+        items: 3
+    },
+    1200: {
+        items: 4
     }
 
 };
@@ -22,8 +25,9 @@ function WeatherCardsCarousel(props) {
     const {weather} = props;
     return (
         <AliceCarousel
+            infinite={false}
             items={weather.list.length ?
-                filterWeather(weather).map(item => <WeatherCard key={item.dt} info={item}/>)
+                filterWeather(weather).map(item => <WeatherCard key={item.dt} info={item} path={props.path}/>)
                 : null
             }
             mouseDragEnabled

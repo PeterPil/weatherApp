@@ -12,7 +12,6 @@ export const fetchWeather = searchValue => {
     return api
       .get("/forecast", { params })
       .then(res => {
-        console.log(res);
         if (res.status < 500) {
           return {
             status: res.status,

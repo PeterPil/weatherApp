@@ -63,7 +63,7 @@ class SignIn extends Component {
                             </div>
                             <p className="sign-in-form__redirect">
                                 Haven't account yet? Go there
-                                <Link to='registration'
+                                <Link to={"/registration/user"}
                                       className="sign-in-form__registrations"
                                 >
                                     >

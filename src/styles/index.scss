@@ -5,6 +5,8 @@
 @import "signIn";
 @import "registrations";
 @import "usersWeather";
+@import "~react-alice-carousel/lib/scss/alice-carousel";
+@import "carousel";
 
 * {
     box-sizing: border-box;
@@ -20,7 +22,7 @@ body {
 }
 
 .wrap {
-    background: url(../images/1.jpg) no-repeat fixed;
+    background: url(../images/2.jpg) no-repeat fixed;
     background-position: 0 0;
     background-size: cover;
     overflow-y: scroll;
@@ -38,8 +40,40 @@ body {
         width: 100%;
         opacity: .6;
         mix-blend-mode: multiply;
-        background-color: #555555;
+        background-color: #858585;
     }
 
+}
+
+.input {
+    border: 1px solid #fff;
+    background-color: transparent;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: #fff;
+    &::placeholder {
+        color: #fff;
+    }
+    &:-webkit-autofill {
+        -webkit-animation-name: autofill;
+        -webkit-animation-fill-mode: both;
+    }
+}
+
+@-webkit-keyframes autofill {
+    to {
+        color: #fff;
+        background: transparent;
+    }
+}
+
+.btn {
+    padding: 7px 10px;
+    background-color: #fff;
+    border: none;
+    cursor: pointer;
+    text-transform: capitalize;
+    font-size: 18px;
+    mix-blend-mode: screen;
 }
 

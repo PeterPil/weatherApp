@@ -5,6 +5,7 @@ import {faSmog} from '@fortawesome/free-solid-svg-icons';
 import LogButton from './LogButton';
 import LogOutButton from './LogOutButton';
 import connect from "react-redux/es/connect/connect";
+import logo from '../images/logo.png';
 
 class Header extends Component {
     render() {
@@ -13,7 +14,7 @@ class Header extends Component {
                 <div className="container">
                     <div className="header-line">
                         <Link to="/weather" className="header__logo">
-                            <FontAwesomeIcon icon={faSmog}/>
+                            <img src={logo} alt="logo" className="header__logo-img"/>
                         </Link>
                         {this.props.isEmpty
                             ? <LogButton className="header-sign__btn"/>

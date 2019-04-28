@@ -6,7 +6,6 @@ import {compose} from 'redux';
 import UsersCard from "./UsersCard";
 
 import AliceCarousel from 'react-alice-carousel'
-import "react-alice-carousel/lib/alice-carousel.css";
 import {Redirect, Route, Switch} from "react-router";
 import AddTownCard from "./AddTownCard";
 import WeatherCardsCarousel from "./WeatherCardsCarousel";
@@ -44,11 +43,11 @@ class UsersWeather extends Component {
     }
 
     renderCards() {
-        return (this.props.testTowns.length
-            ? this.props.testTowns.map(town =>
+        return (this.props.usersTown.town
+            ? this.props.usersTown.town.map(town =>
                 <UsersCard town={town}
-                           testTowns={this.props.testTowns}
                            key={town.id}
+                           usersTowns={this.props.usersTown.town}
                            setUrlPath={this.setUrlPath}
                            path={this.props.match.path}
                 />)
@@ -73,7 +72,7 @@ class UsersWeather extends Component {
                                     infinite={false}
                                     items={
                                         [
-                                            (<AddTownCard testTowns={this.props.testTowns}/>),
+                                            (<AddTownCard usersTowns={this.props.usersTown.town}/>),
                                             ...this.renderCards()
                                         ]
 
@@ -81,7 +80,8 @@ class UsersWeather extends Component {
                                     }
                                 />)
                             }}/>
-                            <Route exact path={`${this.props.match.path}/${this.state.townName}`} component={WeatherCardsCarousel}/>
+                            <Route exact path={`${this.props.match.path}/${this.props.city.name}`}
+                                   render={() => <WeatherCardsCarousel path={this.props.location.pathname}/>}/>
                             </Switch>
 
 
@@ -97,8 +97,9 @@ class UsersWeather extends Component {
 
 const mapStateToProps = state => {
     return {
-
-        testTowns: state.firestore.ordered.usersTown[0].town || [],
+         usersTown: state.firestore.ordered.usersTowns[0],
+        city: state.weatherReducer.city,
+        town: state.userDataReducer.town,
         towns: state.firestore.ordered.listOfTown || [],
         isEmpty: state.firebase.auth.isEmpty
 
@@ -115,10 +116,5 @@ export default compose(
     connect(
         mapStateToProps,
         mapDispatchToProps
-    ),
-    firestoreConnect(
-        [{
-            collection: 'listOfTown'
-        }]
-    ),
+    )
 )(UsersWeather);

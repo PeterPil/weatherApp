@@ -1,14 +1,13 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {format} from "date-fns";
-import "react-alice-carousel/lib/alice-carousel.css";
 import WeatherCardsCarousel from "./WeatherCardsCarousel";
 
 
 class WeatherCards extends Component {
 
     render() {
-        const {weather} = this.props;
+        const {weather, town} = this.props;
         return (
             <section className="weather-cards">
 
@@ -19,7 +18,7 @@ class WeatherCards extends Component {
                         {format(weather.weatherDay, "DD")}
                     </h2>
                     <div className="weather-cards-content">
-                        <WeatherCardsCarousel/>
+                        <WeatherCardsCarousel path={this.props.location.pathname}/>
                     </div>
                     {/*<button onClick={() => this.Carousel._slidePrev()}>Prev button</button>*/}
                     {/*<button onClick={() => this.Carousel._slideNext()}>Next button</button>*/}
@@ -32,7 +31,9 @@ class WeatherCards extends Component {
 }
 
 const mapStateToProps = state => {
+    
     return {
+       
         weather: state.weatherReducer
     };
 };

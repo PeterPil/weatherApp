@@ -6,7 +6,8 @@ import {Redirect} from "react-router";
 class Registration extends Component {
     state = {
         email: '',
-        password: ''
+        password: '',
+        name: ''
     };
 
     handleChange = e => {
@@ -31,11 +32,19 @@ class Registration extends Component {
                         <form onSubmit={this.handelSubmit} className="registrations-form">
                             <input type="email"
                                    id="email"
+                                   placeholder="Email"
                                    onChange={this.handleChange}
                                    className="input registrations-form__input"
                             />
                             <input type="password"
                                    id="password"
+                                   placeholder="Password"
+                                   onChange={this.handleChange}
+                                   className="input registrations-form__input"
+                            />
+                            <input type="text"
+                                   id="name"
+                                   placeholder="UserName"
                                    onChange={this.handleChange}
                                    className="input registrations-form__input"
                             />

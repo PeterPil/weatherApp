@@ -1,7 +1,10 @@
-export const signIn = (param) => {
+export const signIn = param => {
   return async (dispatch, getState, { firebase }) => {
     try {
-      const response = await firebase.login({email:param.email, password:param.password});
+      const response = await firebase.login({
+        email: param.email,
+        password: param.password
+      });
       if (response.user) {
         dispatch({ type: "SIGN_IN_SUCCESS" });
       }
@@ -15,10 +18,36 @@ export const signIn = (param) => {
 export const authWithGoogle = () => {
   return async (dispatch, getState, { firebase }) => {
     try {
-        const response = await firebase.login({ provider: "google", type: "popup" });
-        if(response.user) {
-            dispatch({ type: "SIGN_IN_SUCCESS" });
-        }
+      const response = await firebase.login({
+        provider: "google",
+        type: "popup"
+      });
+      if (response.user) {
+        const userName = await firebase
+          .firestore()
+          .collection("users")
+          .doc(firebase.auth().currentUser.uid);
+        userName.get().then(res => {
+          if (res.data().town) {
+            userName.set(
+              {
+                id: response.user.uid
+              },
+              { merge: true }
+            );
+          } else {
+            userName.set(
+              {
+                id: response.user.uid,
+                town: []
+              },
+              { merge: true }
+            );
+          }
+        });
+
+        dispatch({ type: "SIGN_IN_SUCCESS" });
+      }
     } catch (err) {
       dispatch({ type: "SIGN_IN_ERROR", errorIn: err.message });
       console.error(err);
@@ -50,6 +79,19 @@ export const registration = params => {
         password: params.password
       });
       if (response) {
+        const userName = await firebase
+          .firestore()
+          .collection("users")
+          .doc(firebase.auth().currentUser.uid)
+          .set(
+            {
+              id: firebase.auth().currentUser.uid,
+              displayName: params.name,
+              town: []
+            },
+            { merge: true }
+          );
+
         dispatch({ type: "REGISTRATION_SUCCESS" });
       } else {
         dispatch({ type: "REGISTRATION_ERROR" });
@@ -61,4 +103,30 @@ export const registration = params => {
   };
 };
 
-
+export const authState = params => {
+  return async (dispatch, getState, { firebase }) => {
+    try {
+      const response = await firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+          const result = firebase
+            .firestore()
+            .collection("users")
+            .doc(user.uid)
+            .get()
+            .then(res => {
+              dispatch({
+                type: "GET_USERS_TOWNS",
+                town: res.data().town || "",
+                userName: res.data().displayName
+              });
+            })
+            .catch(err => {
+              console.error(err);
+            });
+        }
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+};

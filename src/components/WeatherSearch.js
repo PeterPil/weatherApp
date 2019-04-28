@@ -37,7 +37,7 @@ class WeatherSearch extends Component {
             if (!this.props.list.length) {
                 return this.setState({searchError: "There is no city. Try again"})
             }
-            this.props.addTownToFirebase(this.state.searchTown, this.props.testTowns);
+            this.props.addTownToFirebase(this.props.city, this.props.usersTown.town);
             this.setState({searchError: null})
             return this.setState({
                 errTownAdd: false
@@ -75,6 +75,7 @@ class WeatherSearch extends Component {
                         <form className="weather-search-field" onSubmit={this.submitTown}>
                             <input
                                 type="text"
+                                id="text"
                                 placeholder="Enter town"
                                 ref={this.refTown}
                                 className="input weather-search-field__input"
@@ -100,7 +101,7 @@ class WeatherSearch extends Component {
                                            onChange={this.setWeatherType}
                                            className="weather-search-params-type__item-input"
                                     />
-                                    Day weather
+                                    Today weather
                                     <span className="weather-search-params-type__item-check"></span>
                                 </label>
 
@@ -148,11 +149,12 @@ class WeatherSearch extends Component {
 
 const mapStateToProps = state => {
     return {
-        testTowns: state.firestore.ordered.usersTown[0].town || [],
+        usersTown: state.firestore.ordered.usersTowns[0],
+        town: state.userDataReducer.town,
         isEmpty: state.firebase.auth.isEmpty,
+      city: state.weatherReducer.city,
         list: state.weatherReducer.list,
         weatherType: state.weatherReducer.weatherType,
-        towns: state.firestore.ordered.listOfTown,
         errorAddTown: state.townToFirebaseReducer.errAdd
     };
 };

@@ -23,7 +23,7 @@ function UsersCard(props) {
 
       <button
         onClick={() => {
-          props.deleteTown(props.town.id, props.testTowns);
+          props.deleteTown(props.town.id, props.usersTowns);
         }}
         className="btn users-card__btn "
       >
