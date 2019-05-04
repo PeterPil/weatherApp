@@ -3,7 +3,7 @@ import WeatherCardsCarousel from "./WeatherCardsCarousel";
 import connect from "react-redux/es/connect/connect";
 import React from "react";
 
-function Carousel({weather, routeLocation}){
+function Carousel({weather}){
    function renderDate(){
     if(weather.weatherType === 'today') {
       return format(weather.weatherDay, "DD")
@@ -19,7 +19,7 @@ function Carousel({weather, routeLocation}){
         </h2>
         <div className="row">
           <div className="weather-cards-content">
-            <WeatherCardsCarousel routeLocation={routeLocation} weather={weather}/>
+            <WeatherCardsCarousel weather={weather}/>
           </div>
         </div>
       </section>

@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import Header from "./Header";
 import WeatherSearch from "./WeatherSearch";
 import UsersWeather from "./UsersWeather";
-import {Route, Switch} from "react-router";
+import {Route, Switch, withRouter} from "react-router-dom";
 import SignIn from "./SignIn";
 import connect from "react-redux/es/connect/connect";
 import Registration from "./Registration";
@@ -11,13 +11,6 @@ import {compose} from "redux";
 import {weatherActions} from "../actions";
 
 class Weather extends Component {
-  componentDidMount() {
-    const query = new URLSearchParams(this.props.location.search);
-    const name = this.props.location.pathname.split('/');
-    const type = query.get('type') ? query.get('type') : 'today';
-    // this.props.setWeatherTypeReducer(type);
-    // this.props.fetchWeather(name[2]);
-  }
   
   render() {
     return (
@@ -49,6 +42,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default compose(
+  withRouter,
   connect(
     mapStateToProps,
     mapDispatchToProps
@@ -59,5 +53,5 @@ export default compose(
       where: ["id", "==", props.auth.uid || ""],
       storeAs: "usersTowns"
     }
-  ])
+  ]),
 )(Weather);
