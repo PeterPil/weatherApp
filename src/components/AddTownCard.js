@@ -2,9 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { userToFirebaseActions, weatherActions } from "../actions";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
-
 class AddTownCard extends Component {
   state = {
     isOpen: false,

@@ -6,13 +6,11 @@ import { firestoreReducer } from 'redux-firestore';
 import weatherReducer from './weatherReducer';
 import townToFirebaseReducer from './townToFirebaseReducer';
 import authReducer from './authReducer';
-import userDataReducer from './userDataReducer';
 
 const reducers = combineReducers({
   firebase: firebaseReducer,
   firestore: firestoreReducer,
   routing: routerReducer,
-  userDataReducer,
   weatherReducer,
   townToFirebaseReducer,
   authReducer

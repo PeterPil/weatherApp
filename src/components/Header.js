@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faSmog} from '@fortawesome/free-solid-svg-icons';
 import LogButton from './LogButton';
 import LogOutButton from './LogOutButton';
 import connect from "react-redux/es/connect/connect";
@@ -13,7 +11,7 @@ class Header extends Component {
             <header className="header">
                 <div className="container">
                     <div className="header-line">
-                        <Link to="/weather" className="header__logo">
+                        <Link to="/" className="header__logo">
                             <img src={logo} alt="logo" className="header__logo-img"/>
                         </Link>
                         {this.props.isEmpty

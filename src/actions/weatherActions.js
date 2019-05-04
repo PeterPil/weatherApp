@@ -19,7 +19,7 @@ export const fetchWeather = searchValue => {
             city: res.data.city
           };
         } else {
-          console.log("Server Error!");
+          // console.log("Server Error!");
           throw res;
         }
       })
@@ -31,18 +31,12 @@ export const fetchWeather = searchValue => {
       })
       .catch(error => {
         dispatch({ type: "RESET_LIST_OF_WEATHER" });
-        if (
-          error.response.status === 403 ||
-          error.response.status === 401 ||
-          error.response.status === 400
-        ) {
-          throw error.response.data;
-        }
+        console.error(error);
       });
   };
 };
 
-export const setWeatherType = weatherType => {
+export const setWeatherType = (weatherType) => {
   return dispatch => dispatch({ type: "SET_TYPE_OF_WEATHER", weatherType });
 };
 

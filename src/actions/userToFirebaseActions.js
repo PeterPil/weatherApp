@@ -30,6 +30,7 @@ export const addTownToFirebase = (town, townsList) => {
         );
       if (response) {
         dispatch({ type: "ADD_NEW_TOWN", town });
+        // dispatch({type: "ADD_NEW_TOWN_SUCCESS", succe})
       }
     } catch (err) {
       dispatch({ type: "ADD_NEW_TOWN_ERROR", err: err.message });

@@ -1,7 +1,7 @@
 const initialState = {
     list: [],
     city: '',
-    weatherType: 'daily'
+    // weatherType: '',
 };
 
 export default function weatherReducer(state = initialState, action) {
@@ -12,11 +12,11 @@ export default function weatherReducer(state = initialState, action) {
                 list: action.list,
                 city: action.city
             };
-            case 'SET_TYPE_OF_WEATHER':
-            return {
-                ...state,
-                weatherType: action.weatherType
-            };
+            // case 'SET_TYPE_OF_WEATHER':
+            // return {
+            //     ...state,
+            //     weatherType: action.weatherType
+            // };
             case 'SET_DAY_OF_WEATHER':
             return {
                 ...state,

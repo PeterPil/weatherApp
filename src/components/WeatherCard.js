@@ -12,18 +12,22 @@ function capitalizeFirstLetter(row) {
 }
 
 function WeatherCard(props) {
-  const { info, path } = props;
+  const { info, routeLocation } = props;
   return (
     <div
       className="weather-cards-content-item"
       onClick={() => {
         props.setWeatherDay(info.dt_txt);
-        props.setWeatherType("daily");
+        props.setWeatherType("today");
       }}
     >
-      <Link to={`${path}/${format(info.dt_txt, "DD-MM-YY")}`}>
+      {/*<Link*/}
+        {/*to={`${routeLocation.pathname}/${routeLocation.search}*/}
+        {/**/}
+        {/*`}*/}
+      {/*>*/}
         <div className="weather-cards-content-item__date">
-        {props.weatherType === "daily"
+        {props.weatherType === "today"
           ? format(info.dt_txt, "HH:mm")
           : format(info.dt_txt, "DD MMMM YYYY")}
       </div>
@@ -70,7 +74,7 @@ function WeatherCard(props) {
           {info.main.humidity} %
         </p>
       </div>
-      </Link>
+      {/*</Link>*/}
 
     </div>
   );

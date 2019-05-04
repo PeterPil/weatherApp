@@ -8,20 +8,16 @@ import connect from "react-redux/es/connect/connect";
 import Registration from "./Registration";
 import {firestoreConnect} from "react-redux-firebase";
 import {compose} from "redux";
-import {weatherActions, authActions} from "../actions";
+import {weatherActions} from "../actions";
 
 class Weather extends Component {
   componentDidMount() {
-    
     const query = new URLSearchParams(this.props.location.search);
     const name = this.props.location.pathname.split('/');
-    const day = query.get('day');
-    this.props.fetchWeather(name[2]);
-   
-    
+    const type = query.get('type') ? query.get('type') : 'today';
+    // this.props.setWeatherTypeReducer(type);
+    // this.props.fetchWeather(name[2]);
   }
-  
-  
   
   render() {
     return (
@@ -30,8 +26,8 @@ class Weather extends Component {
         <Switch>
           <Route path="/users-weather" component={UsersWeather}/>
           <Route path="/sign-in" component={SignIn}/>
-          <Route path="/weather" component={WeatherSearch}/>
           <Route path="/registration" component={Registration}/>
+          <Route path="/" component={WeatherSearch}/>
         </Switch>
       </div>
     );
@@ -49,7 +45,6 @@ const mapDispatchToProps = dispatch => {
   return {
     fetchWeather: search => dispatch(weatherActions.fetchWeather(search)),
     setWeatherTypeReducer: weatherType => dispatch(weatherActions.setWeatherType(weatherType)),
-    authState: () => dispatch(authActions.authState())
   };
 };
 

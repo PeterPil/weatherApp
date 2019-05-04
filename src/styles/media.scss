@@ -1,0 +1,32 @@
+@media only screen and (max-width: 530px) {
+  .weather-search-container {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 430px) {
+  .weather-search-field {
+    flex-direction: column;
+    align-items: center;
+    &__input {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+    &__button {
+      width: 170px;
+    }
+    &__cancel {
+    right: 15px;
+    }
+
+
+  }
+}
+
+@media only screen and (min-width: 430px) {
+  .weather-search-field {
+    &__cancel {
+    left: 54%;
+    }
+  }
+}

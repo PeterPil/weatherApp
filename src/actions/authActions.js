@@ -79,7 +79,7 @@ export const registration = params => {
         password: params.password
       });
       if (response) {
-        const userName = await firebase
+        await firebase
           .firestore()
           .collection("users")
           .doc(firebase.auth().currentUser.uid)
@@ -103,30 +103,4 @@ export const registration = params => {
   };
 };
 
-export const authState = params => {
-  return async (dispatch, getState, { firebase }) => {
-    try {
-      const response = await firebase.auth().onAuthStateChanged(user => {
-        if (user) {
-          const result = firebase
-            .firestore()
-            .collection("users")
-            .doc(user.uid)
-            .get()
-            .then(res => {
-              dispatch({
-                type: "GET_USERS_TOWNS",
-                town: res.data().town || "",
-                userName: res.data().displayName
-              });
-            })
-            .catch(err => {
-              console.error(err);
-            });
-        }
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  };
-};
+
