@@ -1,75 +1,66 @@
-import React, {Component} from 'react';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faTimes} from '@fortawesome/free-solid-svg-icons';
-import {userToFirebaseActions, weatherActions} from '../actions';
-import {connect} from "react-redux";
-import {compose} from "redux";
-import {Link, Route, withRouter, Switch} from "react-router-dom";
-import WeatherCards, {ConnectedWeatherForOneDay} from "./WeatherCards";
-// import {withRouter} from "react-router";
-import history from './history';
+import React, { Component } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { format } from "date-fns";
+import { userToFirebaseActions, weatherActions } from "../actions";
+import { connect } from "react-redux";
+import { compose } from "redux";
+import { Link, Route, withRouter } from "react-router-dom";
+import WeatherCards from "./WeatherCards";
 
 class WeatherSearch extends Component {
-  
   state = {
-    searchTown: '',
-    weatherType: 'today',
+    searchTown: "",
+    weatherType: "today",
     searchError: null,
     errTownAdd: false,
     redirect: false
   };
   refTown = React.createRef();
-  
-  
+
   submitTown = e => {
     e.preventDefault();
-    this.props.fetchWeather(this.state.searchTown);
-    // this.props.setWeatherTypeReducer(this.state.weatherType);
-    this.props.history.push(`/${this.state.searchTown}`);
-    // this.props.history.push({
-    //   pathname: `${this.props.match.path}/${this.state.searchTown}`,
-    //   search: `?type=${this.state.weatherType}`
-    // });
-    
+    if (this.state.weatherType === "today") {
+      const todayDate = format(new Date(), "YYYY-MM-DD");
+      this.props.history.push(`/${this.state.searchTown}/${todayDate}`);
+    } else if (this.state.weatherType === "fiveDay") {
+      this.props.history.push(`/${this.state.searchTown}`);
+    }
   };
-  
+
   addingTown = () => {
     if (!this.props.isEmpty) {
-      if (this.state.searchTown === '') {
-        return this.setState({searchError: "Can't add empty string"})
+      if (this.state.searchTown === "") {
+        return this.setState({ searchError: "Can't add empty string" });
       }
       if (!this.props.list.length) {
-        return this.setState({searchError: "There is no city. Try again"})
+        return this.setState({ searchError: "There is no city. Try again" });
       }
       this.props.addTownToFirebase(this.props.city, this.props.usersTown.town);
-      this.setState({searchError: null})
+      this.setState({ searchError: null });
       return this.setState({
         errTownAdd: false
-      })
+      });
     }
     this.setState({
       errTownAdd: true
-    })
-    
-  }
+    });
+  };
   cancelSearchTown = e => {
-    this.refTown.current.value = '';
-    this.setState({searchTown: ''})
+    this.refTown.current.value = "";
+    this.setState({ searchTown: "" });
   };
   setWeatherType = e => {
     this.setState({
       weatherType: e.currentTarget.value
-    })
-    
+    });
   };
-  
-  handleChange = (e) => {
-    this.setState({searchTown: e.target.value})
+
+  handleChange = e => {
+    this.setState({ searchTown: e.target.value });
   };
-  
-  
+
   render() {
-    console.log(this.props.match.params)
     return (
       <section className="weather-search">
         <div className="container">
@@ -89,66 +80,64 @@ class WeatherSearch extends Component {
               <button type="submit" className="weather-search-field__button">
                 submit
               </button>
-              <FontAwesomeIcon onClick={this.cancelSearchTown}
-                               icon={faTimes}
-                               className="weather-search-field__cancel"
+              <FontAwesomeIcon
+                onClick={this.cancelSearchTown}
+                icon={faTimes}
+                className="weather-search-field__cancel"
               />
-            
-            
             </form>
             <div className="weather-search-params">
               <div className="weather-search-params-type">
                 <label className="weather-search-params-type__item">
-                  <input type="radio"
-                         name="weatherType"
-                         value="today"
-                         checked={this.state.weatherType === "today"}
-                         onChange={this.setWeatherType}
-                         className="weather-search-params-type__item-input"
+                  <input
+                    type="radio"
+                    name="weatherType"
+                    value="today"
+                    checked={this.state.weatherType === "today"}
+                    onChange={this.setWeatherType}
+                    className="weather-search-params-type__item-input"
                   />
                   Today weather
-                  <span
-                    className="weather-search-params-type__item-check"></span>
+                  <span className="weather-search-params-type__item-check" />
                 </label>
-                
+
                 <label className="weather-search-params-type__item">
-                  <input type="radio"
-                         name="weatherType"
-                         value="fiveDay"
-                         checked={this.state.weatherType === "fiveDay"}
-                         onChange={this.setWeatherType}
-                         className="weather-search-params-type__item-input"
+                  <input
+                    type="radio"
+                    name="weatherType"
+                    value="fiveDay"
+                    checked={this.state.weatherType === "fiveDay"}
+                    onChange={this.setWeatherType}
+                    className="weather-search-params-type__item-input"
                   />
                   5 Day weather
-                  <span
-                    className="weather-search-params-type__item-check"></span>
+                  <span className="weather-search-params-type__item-check" />
                 </label>
               </div>
-              <button className="weather-search-params__add"
-                      onClick={this.addingTown}
+              <button
+                className="weather-search-params__add"
+                onClick={this.addingTown}
               >
                 Add town
               </button>
             </div>
-            {this.state.searchError &&
-            <p className="weather-search__error">{this.state.searchError}</p>}
+            {this.state.searchError && (
+              <p className="weather-search__error">{this.state.searchError}</p>
+            )}
             <p>{this.props.errorAddTown}</p>
-            {
-              this.state.errTownAdd &&
+            {this.state.errTownAdd && (
               <p className="weather-search__error-add">
                 Can't add town, you must be loged in. You may do it there
-                <Link to='/sign-in'
-                      className="sign-in-form__registrations"
-                >
+                <Link to="/sign-in" className="sign-in-form__registrations">
                   >
                 </Link>
               </p>
-            }
+            )}
           </div>
-            <Route exact path={"/:townId"}
-                   render={() => (
-                     <WeatherCards routeLocation={this.props.location}/>
-                   )}/>
+          <Route
+            path={`/:townId`}
+            component={WeatherCards}
+          />
         </div>
       </section>
     );
@@ -157,11 +146,14 @@ class WeatherSearch extends Component {
 
 const mapStateToProps = state => {
   return {
-    usersTown: state.firestore.ordered.usersTowns ? state.firestore.ordered.usersTowns[0] : {},
+    usersTown: state.firestore.ordered.usersTowns
+      ? state.firestore.ordered.usersTowns[0]
+      : {},
     isEmpty: state.firebase.auth.isEmpty,
     city: state.weatherReducer.city,
     list: state.weatherReducer.list,
     weatherType: state.weatherReducer.weatherType,
+    weatherDay: state.weatherReducer.weatherDay,
     errorAddTown: state.townToFirebaseReducer.errAdd
   };
 };
@@ -169,9 +161,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchWeather: search => dispatch(weatherActions.fetchWeather(search)),
-    addTownToFirebase: (town, townsList) => dispatch(userToFirebaseActions.addTownToFirebase(town, townsList)),
-    setWeatherTypeReducer: weatherType => dispatch(weatherActions.setWeatherType(weatherType)),
-    
+    addTownToFirebase: (town, townsList) =>
+      dispatch(userToFirebaseActions.addTownToFirebase(town, townsList)),
+    setWeatherTypeReducer: weatherType =>
+      dispatch(weatherActions.setWeatherType(weatherType))
   };
 };
 
@@ -180,5 +173,5 @@ export default compose(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  ),
+  )
 )(WeatherSearch);

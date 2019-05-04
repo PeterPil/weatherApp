@@ -18,6 +18,5 @@ let store = createStore(
 
 store.subscribe(throttle(() => {
   saveState(store.getState());
-  // console.log(store.getState());
 }), 1000);
 export default store;
