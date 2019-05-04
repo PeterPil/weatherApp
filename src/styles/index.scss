@@ -1,10 +1,93 @@
 @import 'reset';
 @import 'header';
-body {
-  color: black;
+@import "weatherSearch";
+@import "weatherCards";
+@import "signIn";
+@import "registrations";
+@import "usersWeather";
+@import "~react-alice-carousel/lib/scss/alice-carousel";
+@import "carousel";
+@import "media";
+
+* {
+    box-sizing: border-box;
 }
 
-button {
-  width: 200px;
-  height: 100px;
+html {
+    font-size: 10px;
+    height: 100%;
+    overflow:auto;
+}
+
+body {
+    color: #ffffff;
+    font-family: "Fira Sans", sans-serif;
+    height: 100%;
+    overflow:auto;
+}
+
+.wrap {
+    background: url(../images/2.jpg) no-repeat fixed;
+    background-position: 0 0;
+    background-size: cover;
+    overflow-y: scroll;
+    position: relative;
+    width: 100%;
+    z-index: 0;
+    height: 100vh;
+    &:before {
+        content: '';
+        position: fixed;
+        z-index: -1;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        opacity: .6;
+        mix-blend-mode: multiply;
+        background-color: #858585;
+    }
+
+}
+
+.input {
+    border: 1px solid #fff;
+    background-color: transparent;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: #fff;
+    &::placeholder {
+        color: #fff;
+    }
+    &:-webkit-autofill {
+        -webkit-animation-name: autofill;
+        -webkit-animation-fill-mode: both;
+    }
+}
+
+@-webkit-keyframes autofill {
+    to {
+        color: #fff;
+        background: transparent;
+    }
+}
+
+.btn {
+    padding: 7px 10px;
+    background-color: #fff;
+    border: none;
+    cursor: pointer;
+    text-transform: capitalize;
+    font-size: 18px;
+    mix-blend-mode: screen;
+}
+
+.bordered-btn {
+    padding: 5px;
+    border: 2px solid #fff;
+    border-radius: 3px;
+    cursor: pointer;
+    background-color: transparent;
+    color: #fff;
+
 }

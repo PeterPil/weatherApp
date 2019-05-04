@@ -1,42 +1,99 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import * as authActions from '../actions';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {Redirect} from "react-router";
+import {Link} from "react-router-dom";
+
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faGoogle} from '@fortawesome/free-brands-svg-icons';
+import {authActions} from '../actions';
 
 class SignIn extends Component {
-  state = {
-    email: '',
-    password: ''
-  };
+    state = {
+        email: '',
+        password: ''
+    };
 
-  handleChange = e => {
-    this.setState({
-      [e.target.id]: e.target.value
-    });
-  };
+    handleChange = e => {
+        this.setState({
+            [e.target.id]: e.target.value
+        });
+    };
 
-  handelSubmit = e => {
-    e.preventDefault();
-    this.props.signIn(this.state);
-  };
-  render() {
-    console.log(this.state);
-    return (
-      <form onSubmit={this.handelSubmit}>
-        <input type="email" id="email" onChange={this.handleChange} />
-        <input type="password" id="password" onChange={this.handleChange} />
-        <input type="submit" value="Sign in" />
-      </form>
-    );
-  }
+    handelSubmit = e => {
+        e.preventDefault();
+        this.props.signIn(this.state);
+    };
+
+    render() {
+        if (!this.props.isEmpty) {
+            return <Redirect to='/'/>
+        }
+        return (
+            <section className="sign-in">
+                <div className="container">
+                    <div className="sign-in-main">
+                        <form onSubmit={this.handelSubmit} className="sign-in-form">
+                            <input type="email"
+                                   id="email"
+                                   placeholder="Your email"
+                                   onChange={this.handleChange}
+                                   className="input sign-in-form__input"
+                            />
+                            <input type="password"
+                                   id="password"
+                                   placeholder="Your password"
+                                   onChange={this.handleChange}
+                                   className="input sign-in-form__input"
+                            />
+                            <div className="sign-in-form__submit">
+
+                                {this.props.errorIn
+                                && <p className="sign-in-form__error">
+                                    {this.props.errorIn}
+                                </p>}
+                                <input type="submit"
+                                       value="Sign in"
+                                       className="sign-in-form__submit-btn"
+                                />
+                                <p className="sign-in-form__submit-text">or</p>
+                                <FontAwesomeIcon icon={faGoogle}
+                                                 onClick={this.props.authGoogle}
+                                                 className="sign-in-form__submit-google"
+                                />
+                            </div>
+                            <p className="sign-in-form__redirect">
+                                Haven't account yet? Go there
+                                <Link to={"/registration/user"}
+                                      className="sign-in-form__registrations"
+                                >
+                                    >
+                                </Link>
+                            </p>
+                        </form>
+
+                    </div>
+                </div>
+            </section>
+
+        );
+    }
 }
 
+const mapStateToProps = state => {
+    return {
+        isEmpty: state.firebase.auth.isEmpty,
+        errorIn: state.authReducer.errorIn
+    };
+};
+
 const mapDispatchToProps = dispatch => {
-  return {
-    signIn: params => dispatch(authActions.signIn(params))
-  };
+    return {
+        signIn: params => dispatch(authActions.signIn(params)),
+        authGoogle: () => dispatch(authActions.authWithGoogle())
+    };
 };
 
 export default connect(
-  null,
-  mapDispatchToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(SignIn);

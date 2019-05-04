@@ -1,5 +1,5 @@
-import * as searchWeather from './getWeather';
-import * as townInDatabase from './addListToFirebase';
-import { signIn } from './authActions';
+import * as weatherActions from './weatherActions';
+import * as userToFirebaseActions from './userToFirebaseActions';
+import * as authActions from './authActions';
 
-export { searchWeather, townInDatabase, signIn };
+export { weatherActions, userToFirebaseActions, authActions };

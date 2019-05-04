@@ -1,10 +1,17 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
 
 class LogButton extends Component {
-  render() {
-    return <Link to={'/sign-in'}>Log in</Link>;
-  }
+    render() {
+        return (
+            <div className="header-sign">
+                <Link to={'/sign-in'} className="header-sign__btn">
+                    Log in
+                </Link>
+            </div>
+
+        );
+    }
 }
 
 export default LogButton;

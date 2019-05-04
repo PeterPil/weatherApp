@@ -1,20 +1,23 @@
 import reducers from '../reducers/index';
 import {applyMiddleware, compose, createStore} from 'redux';
 import thunk from 'redux-thunk';
-import {getFirestore, reduxFirestore} from 'redux-firestore';
-import {getFirebase, reduxFirebase} from 'react-redux-firebase';
-import fbConfig from "../Firebase/fbConfig";
 import firebase from "../Firebase/firebase";
-import rrfConfig from "../Firebase/rrfConfig";
+import {loadState, saveState} from "./localStorage";
+import {throttle} from "lodash";
+
+const persistedState = loadState();
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 let store = createStore(
     reducers,
+    persistedState,
     composeEnhancers(
-        // reduxFirebase(firestore, rrfConfig),
-        // reduxFirestore(firestore),
-        applyMiddleware(thunk.withExtraArgument({firebase}))
+        applyMiddleware(thunk.withExtraArgument({firebase})),
     )
 );
-console.log(getFirebase);
+
+store.subscribe(throttle(() => {
+  saveState(store.getState());
+  // console.log(store.getState());
+}), 1000);
 export default store;
