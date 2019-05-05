@@ -54,9 +54,6 @@ class UsersWeather extends Component {
   }
 
   render() {
-    if (this.props.isEmpty) {
-      return <Redirect to="/" />;
-    }
     return (
       <section className="users-section">
         <div className="container">
@@ -69,38 +66,37 @@ class UsersWeather extends Component {
               UsersWeather
             </h1>
 
-            
-              <Switch>
-                <Route
-                  exact
-                  path={`${this.props.match.path}`}
-                  render={() => {
-                    return (
-                      <div className="row">
-                          <div className="users-weather__items">
-                              <AliceCarousel
-                        mouseDragEnabled
-                        responsive={responsive}
-                        infinite={false}
-                        items={[
-                          (this.props.usersTown ? <AddTownCard
-                            usersTowns={this.props.usersTown.town}
-                          /> : null),
-                          ...this.renderCards()
-                        ]}
-                      />
-                          </div>
+            <Switch>
+              <Route
+                exact
+                path={`${this.props.match.path}`}
+                render={() => {
+                  return (
+                    <div className="row">
+                      <div className="users-weather__items">
+                        <AliceCarousel
+                          mouseDragEnabled
+                          responsive={responsive}
+                          infinite={false}
+                          items={[
+                            this.props.usersTown ? (
+                              <AddTownCard
+                                usersTowns={this.props.usersTown.town}
+                              />
+                            ) : null,
+                            ...this.renderCards()
+                          ]}
+                        />
                       </div>
-                      
-                      
-                    );
-                  }}
-                />
-                <Route
-                  path={`${this.props.match.path}/:townId`}
-                  component={WeatherCards}
-                />
-              </Switch>
+                    </div>
+                  );
+                }}
+              />
+              <Route
+                path={`${this.props.match.path}/:townId`}
+                component={WeatherCards}
+              />
+            </Switch>
           </div>
         </div>
       </section>

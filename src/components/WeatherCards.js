@@ -6,7 +6,6 @@ import { ConnectedCarousel } from "./Carousel";
 import WeatherForOneDay from "./WeatherForOneDay";
 
 class WeatherCards extends Component {
-  
   render() {
     return (
       <div>

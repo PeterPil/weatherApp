@@ -29,26 +29,37 @@ class AddTownCard extends Component {
   };
 
   render() {
-    return <div className="users-card">
-        {this.state.isOpen ? <form onSubmit={this.addingTown} className="users-card-form">
-            <input type="text"
-                   placeholder="Enter town"
-                   className="input users-card-form__input"
-                   onChange={this.handleChange} />
+    return (
+      <div className="users-card">
+        {this.state.isOpen ? (
+          <form onSubmit={this.addingTown} className="users-card-form">
+            <input
+              type="text"
+              placeholder="Enter town"
+              className="input users-card-form__input"
+              onChange={this.handleChange}
+            />
             <div className="users-card-form__submit">
               <button className="btn users-card-form__submit-btn" type="submit">
                 add
               </button>
-              <button className="btn users-card-form__submit-btn" onClick={this.handleClick}>
+              <button
+                className="btn users-card-form__submit-btn"
+                onClick={this.handleClick}
+              >
                 cancel
               </button>
             </div>
-          </form> : <div className="users-card__add">
+          </form>
+        ) : (
+          <div className="users-card__add">
             <div className="users-card__add-item" onClick={this.handleClick} />
           </div>
+        )
         // : <FontAwesomeIcon className="users-card__add" icon={faPlus} onClick={this.handleClick}/>
         }
-      </div>;
+      </div>
+    );
   }
 }
 

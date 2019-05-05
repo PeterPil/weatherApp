@@ -1,26 +1,40 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import Header from "./Header";
 import WeatherSearch from "./WeatherSearch";
 import UsersWeather from "./UsersWeather";
-import {Route, Switch, withRouter} from "react-router-dom";
+import { Route, Switch, withRouter } from "react-router-dom";
 import SignIn from "./SignIn";
 import connect from "react-redux/es/connect/connect";
 import Registration from "./Registration";
-import {firestoreConnect} from "react-redux-firebase";
-import {compose} from "redux";
-import {weatherActions} from "../actions";
+import { firestoreConnect } from "react-redux-firebase";
+import { compose } from "redux";
+import PrivateRoute from "./PrivateRoute";
 
 class Weather extends Component {
-  
   render() {
     return (
       <div className="wrap">
-        <Header/>
+        <Header />
         <Switch>
-          <Route path="/users-weather" component={UsersWeather}/>
-          <Route path="/sign-in" component={SignIn}/>
-          <Route path="/registration" component={Registration}/>
-          <Route path="/" component={WeatherSearch}/>
+          <PrivateRoute
+            path="/users-weather"
+            authed={this.props.isEmpty}
+            redirect="/"
+            component={UsersWeather}
+          />
+          <PrivateRoute
+            path="/sign-in"
+            authed={!this.props.isEmpty}
+            redirect="/users-weather"
+            component={SignIn}
+          />
+          <PrivateRoute
+            path="/registration"
+            authed={!this.props.isEmpty}
+            redirect="/"
+            component={Registration}
+          />
+          <Route path="/" component={WeatherSearch} />
         </Switch>
       </div>
     );
@@ -34,18 +48,11 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchWeather: search => dispatch(weatherActions.fetchWeather(search)),
-    setWeatherTypeReducer: weatherType => dispatch(weatherActions.setWeatherType(weatherType)),
-  };
-};
-
 export default compose(
   withRouter,
   connect(
     mapStateToProps,
-    mapDispatchToProps
+    null
   ),
   firestoreConnect(props => [
     {
@@ -53,5 +60,5 @@ export default compose(
       where: ["id", "==", props.auth.uid || ""],
       storeAs: "usersTowns"
     }
-  ]),
+  ])
 )(Weather);

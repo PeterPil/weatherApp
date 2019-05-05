@@ -2,7 +2,7 @@ import { Component } from "react";
 import { withRouter } from "react-router-dom";
 import connect from "react-redux/es/connect/connect";
 import React from "react";
-import {Carousel, RoutedCarousel} from "./Carousel";
+import { Carousel, RoutedCarousel } from "./Carousel";
 import * as weatherActions from "../actions/weatherActions";
 
 class WeatherForOneDay extends Component {
@@ -32,17 +32,16 @@ class WeatherForOneDay extends Component {
 function mapStateToProps(state) {
   return {
     weatherList: state.weatherReducer.list,
-      city: state.weatherReducer.city
-  }
+    city: state.weatherReducer.city
+  };
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    
     setWeatherTypeReducer: weatherType =>
       dispatch(weatherActions.setWeatherType(weatherType))
-  }
-}
+  };
+};
 export default withRouter(
   connect(
     mapStateToProps,

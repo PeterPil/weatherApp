@@ -14,7 +14,6 @@
   }
   &-field {
     width: 100%;
-
     font-size: 18px;
     margin: 0 auto;
     display: flex;
@@ -65,18 +64,10 @@
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
-        //&:hover
-        //  .weather-search-params-type__item-input
-        //  ~ .weather-search-params-type__item-check {
-        //  background-color: rgba(14, 13, 14, 0.74);
-        //}
         &-input {
           position: absolute;
           opacity: 0;
           cursor: pointer;
-          &:checked ~ .weather-search-params-type__item-check {
-            //background-color: #2196F3;
-          }
           &:checked ~ .weather-search-params-type__item-check:after {
             display: block;
             content: "";
@@ -105,7 +96,6 @@
         }
       }
     }
-
     &__add {
       border: 1px solid #fff;
       border-radius: 3px;

@@ -1,0 +1,55 @@
+.sign-in {
+  &-main,
+  &-form {
+    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &-form {
+    &__input {
+      height: 50px;
+      width: 350px;
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+    &__submit {
+      position: relative;
+      font-size: 18px;
+      display: flex;
+      margin-bottom: 30px;
+      flex-direction: column;
+      align-items: center;
+      &-btn {
+        height: 100%;
+        width: 120px;
+        background-color: #fff;
+        border: none;
+        cursor: pointer;
+        padding: 10px;
+        text-transform: uppercase;
+        font-size: 18px;
+        mix-blend-mode: screen;
+      }
+      &-text {
+        font-size: 18px;
+        margin: 10px 0;
+      }
+      &-google {
+        font-size: 25px;
+        cursor: pointer;
+      }
+    }
+    &__error {
+      margin-bottom: 10px;
+      color: #ff4652;
+    }
+    &__registrations {
+      text-decoration: underline;
+      color: #fff;
+      margin-left: 10px;
+      font-size: 20px;
+    }
+  }
+}

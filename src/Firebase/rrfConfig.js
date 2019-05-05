@@ -1,5 +1,5 @@
 const rrfConfig = {
-  userProfile: 'users',
+  userProfile: "users",
   useFirestoreForProfile: true
 };
 

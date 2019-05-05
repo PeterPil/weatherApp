@@ -16,17 +16,15 @@
       width: 170px;
     }
     &__cancel {
-    right: 15px;
+      right: 15px;
     }
-
-
   }
 }
 
 @media only screen and (min-width: 430px) {
   .weather-search-field {
     &__cancel {
-    left: 54%;
+      left: 54%;
     }
   }
 }
