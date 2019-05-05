@@ -2,38 +2,24 @@ import api from "../api";
 import { transliterate as tr } from "transliteration";
 
 export const fetchWeather = searchValue => {
-  return (dispatch, getState) => {
-    const params = {
-      appid: "228473111bbbe3a150c7076ed8f93d03",
-      q: tr(searchValue),
-      units: "metric"
-    };
-
-    return api
-      .get("/forecast", { params })
-      .then(res => {
-        if (res.status < 500) {
-          return {
-            status: res.status,
-            list: res.data.list,
-            city: res.data.city
-          };
-        } else {
-          console.log("Server Error!");
-          throw res;
-        }
-      })
-      .then(({ status, list, city }) => {
-        if (status === 200) {
+  return async (dispatch, getState) => {
+    try {
+      const params = {
+        appid: "228473111bbbe3a150c7076ed8f93d03",
+        q: tr(searchValue),
+        units: "metric"
+      };
+      const apiResponse = await api.get("/forecast", { params });
+      if (apiResponse.data.cod < 500) {
+        const { cod, city, list } = apiResponse.data;
+        if (Number.parseInt(cod) === 200) {
           dispatch({ type: "SET_DAY_OF_WEATHER", weatherDay: list[0].dt_txt });
-          return dispatch({ type: "SET_LIST_OF_WEATHER", list, city });
+          dispatch({ type: "SET_LIST_OF_WEATHER", list, city });
         }
-      })
-      .catch(error => {
-        console.log(error);
-        dispatch({ type: "RESET_LIST_OF_WEATHER" });
-        console.error(error);
-      });
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 };
 
@@ -41,6 +27,6 @@ export const setWeatherType = weatherType => {
   return dispatch => dispatch({ type: "SET_TYPE_OF_WEATHER", weatherType });
 };
 
-export const setWeatherDay = date => {
-  return dispatch => dispatch({ type: "SET_DAY_OF_WEATHER", weatherDay: date });
+export const setWeatherDay = weatherDay => {
+  return dispatch => dispatch({ type: "SET_DAY_OF_WEATHER", weatherDay });
 };

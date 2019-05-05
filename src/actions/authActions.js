@@ -23,28 +23,29 @@ export const authWithGoogle = () => {
         type: "popup"
       });
       if (response.user) {
-        const userName = await firebase
+        const userDate = await firebase
           .firestore()
           .collection("users")
           .doc(firebase.auth().currentUser.uid);
-        userName.get().then(res => {
-          if (res.data().town) {
-            userName.set(
+        const getUserDate = await userDate.get();
+          
+          if (getUserDate.data().town) {
+            userDate.set(
               {
                 id: response.user.uid
               },
               { merge: true }
             );
           } else {
-            userName.set(
+            userDate.set(
               {
                 id: response.user.uid,
                 town: []
               },
               { merge: true }
             );
-          }
-        });
+          };
+        
 
         dispatch({ type: "SIGN_IN_SUCCESS" });
       }
@@ -78,7 +79,7 @@ export const registration = params => {
         email: params.email,
         password: params.password
       });
-      if (response) {
+      if (response.user) {
         await firebase
           .firestore()
           .collection("users")
