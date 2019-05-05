@@ -25,7 +25,6 @@ export const fetchWeather = searchValue => {
       })
       .then(({ status, list, city }) => {
         if (status === 200) {
-          // dispatch({ type: "RESET_LIST_OF_WEATHER" });
           dispatch({ type: "SET_DAY_OF_WEATHER", weatherDay: list[0].dt_txt });
           return dispatch({ type: "SET_LIST_OF_WEATHER", list, city });
         }
@@ -38,7 +37,7 @@ export const fetchWeather = searchValue => {
   };
 };
 
-export const setWeatherType = (weatherType) => {
+export const setWeatherType = weatherType => {
   return dispatch => dispatch({ type: "SET_TYPE_OF_WEATHER", weatherType });
 };
 

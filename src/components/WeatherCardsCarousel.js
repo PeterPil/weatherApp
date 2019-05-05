@@ -26,10 +26,7 @@ export default function WeatherCardsCarousel(props) {
       items={
         weather.list.length
           ? filterWeather(weather).map(item => (
-              <WeatherCard
-                key={item.dt}
-                info={item}
-              />
+              <WeatherCard key={item.dt} info={item} />
             ))
           : []
       }

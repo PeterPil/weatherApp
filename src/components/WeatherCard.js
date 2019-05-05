@@ -17,65 +17,64 @@ function WeatherCard(props) {
     <div
       className="weather-cards-content-item"
       onClick={() => {
-        if(props.weatherType === "fiveDay") {
-          props.history.push(`${props.match.url}/${format(info.dt_txt, "YYYY-MM-DD")}`)
+        if (props.weatherType === "fiveDay") {
+          props.history.push(
+            `${props.match.url}/${format(info.dt_txt, "YYYY-MM-DD")}`
+          );
           props.setWeatherDay(info.dt_txt);
-        props.setWeatherType("today");
+          props.setWeatherType("today");
         }
-        
-        
+
         console.log(props);
-        
-        
       }}
     >
-        <div className="weather-cards-content-item__date">
-          {props.weatherType === "today"
-            ? format(info.dt_txt, "HH:mm")
-            : format(info.dt_txt, "DD MMMM YYYY")}
-        </div>
-        <div className="weather-cards-content-item__main weather-cards-content-item__main--center">
-          <p className="weather-cards-content-item__main-temp">
-            {Math.round(info.main.temp)}&deg;C
-          </p>
-          <img
-            src={`https://openweathermap.org/img/w/${info.weather[0].icon}.png`}
-            alt=""
-            className="weather-cards-content-item__main-clouds"
-          />
-        </div>
-        <p className="weather-cards-content-item__descr">
-          {capitalizeFirstLetter(info.weather[0].description)}
+      <div className="weather-cards-content-item__date">
+        {props.weatherType === "today"
+          ? format(info.dt_txt, "HH:mm")
+          : format(info.dt_txt, "DD MMMM YYYY")}
+      </div>
+      <div className="weather-cards-content-item__main weather-cards-content-item__main--center">
+        <p className="weather-cards-content-item__main-temp">
+          {Math.round(info.main.temp)}&deg;C
         </p>
-        <div className="weather-cards-content-item__main">
-          <p className="weather-cards-content-item__main-text">min/max</p>
-          <p className="weather-cards-content-item__main-value">
-            {Math.round(info.main.temp_min)}&deg;C /
-            {Math.round(info.main.temp_max)}&deg;C
-          </p>
-        </div>
-        <div className="weather-cards-content-item__main">
-          <p className="weather-cards-content-item__main-text">wind</p>
-          <p className="weather-cards-content-item__main-value">
-            {info.wind.speed}m/s /{" "}
-            <FontAwesomeIcon
-              icon={faLongArrowAltUp}
-              style={{ transform: `rotate(${info.wind.deg}deg)` }}
-            />
-          </p>
-        </div>
-        <div className="weather-cards-content-item__main">
-          <p className="weather-cards-content-item__main-text">pressure</p>
-          <p className="weather-cards-content-item__main-value">
-            {info.main.pressure} hPa
-          </p>
-        </div>
-        <div className="weather-cards-content-item__main">
-          <p className="weather-cards-content-item__main-text">humidity</p>
-          <p className="weather-cards-content-item__main-value">
-            {info.main.humidity} %
-          </p>
-        </div>
+        <img
+          src={`https://openweathermap.org/img/w/${info.weather[0].icon}.png`}
+          alt=""
+          className="weather-cards-content-item__main-clouds"
+        />
+      </div>
+      <p className="weather-cards-content-item__descr">
+        {capitalizeFirstLetter(info.weather[0].description)}
+      </p>
+      <div className="weather-cards-content-item__main">
+        <p className="weather-cards-content-item__main-text">min/max</p>
+        <p className="weather-cards-content-item__main-value">
+          {Math.round(info.main.temp_min)}&deg;C /
+          {Math.round(info.main.temp_max)}&deg;C
+        </p>
+      </div>
+      <div className="weather-cards-content-item__main">
+        <p className="weather-cards-content-item__main-text">wind</p>
+        <p className="weather-cards-content-item__main-value">
+          {info.wind.speed}m/s /{" "}
+          <FontAwesomeIcon
+            icon={faLongArrowAltUp}
+            style={{ transform: `rotate(${info.wind.deg}deg)` }}
+          />
+        </p>
+      </div>
+      <div className="weather-cards-content-item__main">
+        <p className="weather-cards-content-item__main-text">pressure</p>
+        <p className="weather-cards-content-item__main-value">
+          {info.main.pressure} hPa
+        </p>
+      </div>
+      <div className="weather-cards-content-item__main">
+        <p className="weather-cards-content-item__main-text">humidity</p>
+        <p className="weather-cards-content-item__main-value">
+          {info.main.humidity} %
+        </p>
+      </div>
     </div>
   );
 }
@@ -94,7 +93,9 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default withRouter(connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(WeatherCard));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(WeatherCard)
+);

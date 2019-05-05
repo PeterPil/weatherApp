@@ -102,5 +102,3 @@ export const registration = params => {
     }
   };
 };
-
-

@@ -14,8 +14,6 @@ class Carousel extends Component {
     ) {
       this.props.setWeatherTypeReducer("fiveDay");
     }
-    console.log(this.props.match.url, `/${this.props.weather.city.name}`);
-    
   }
   renderDate(weather) {
     if (weather.weatherType === "today") {

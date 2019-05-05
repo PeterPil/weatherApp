@@ -5,9 +5,7 @@ const initialState = {
 };
 
 export default function weatherReducer(state = initialState, action) {
-  
   switch (action.type) {
-    
     case "SET_LIST_OF_WEATHER":
       return {
         ...state,
@@ -29,7 +27,7 @@ export default function weatherReducer(state = initialState, action) {
         ...state,
         list: [],
         city: "",
-        weatherType: 'fiveDay'
+        weatherType: "fiveDay"
       };
     default:
       return state;

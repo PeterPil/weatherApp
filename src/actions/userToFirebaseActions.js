@@ -1,4 +1,3 @@
-
 export const addTownToFirebase = (town, townsList) => {
   return async (dispatch, getState, { firebase }) => {
     try {
@@ -14,10 +13,7 @@ export const addTownToFirebase = (town, townsList) => {
         }
       }
 
-      const arr = [
-        {...town},
-        ...townsList
-      ];
+      const arr = [{ ...town }, ...townsList];
       const response = await firebase
         .firestore()
         .collection("users")
@@ -30,7 +26,6 @@ export const addTownToFirebase = (town, townsList) => {
         );
       if (response) {
         dispatch({ type: "ADD_NEW_TOWN", town });
-        // dispatch({type: "ADD_NEW_TOWN_SUCCESS", succe})
       }
     } catch (err) {
       dispatch({ type: "ADD_NEW_TOWN_ERROR", err: err.message });

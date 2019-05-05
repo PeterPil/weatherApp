@@ -69,9 +69,9 @@ class WeatherSearch extends Component {
           <h1 className="weather-search__title">
             Check the weather in your town
           </h1>
-            <form className="weather-search-form" onSubmit={this.submitTown}>
-              <div className="weather-search-field">
-                <input
+          <form className="weather-search-form" onSubmit={this.submitTown}>
+            <div className="weather-search-field">
+              <input
                 type="text"
                 id="text"
                 placeholder="Enter town"
@@ -87,8 +87,8 @@ class WeatherSearch extends Component {
                 icon={faTimes}
                 className="weather-search-field__cancel"
               />
-              </div>
-              <div className="weather-search-params">
+            </div>
+            <div className="weather-search-params">
               <div className="weather-search-params-type">
                 <label className="weather-search-params-type__item">
                   <input
@@ -123,25 +123,21 @@ class WeatherSearch extends Component {
                 Add town
               </button>
             </div>
-            </form>
-            
-            {this.state.searchError && (
-              <p className="weather-search__error">{this.state.searchError}</p>
-            )}
-            <p>{this.props.errorAddTown}</p>
-            {this.state.errTownAdd && (
-              <p className="weather-search__error-add">
-                Can't add town, you must be loged in. You may do it there
-                <Link to="/sign-in" className="sign-in-form__registrations">
-                  >
-                </Link>
-              </p>
-            )}
-          <Route
-            path={`/:townId`}
-            component={WeatherCards}
-          />
-          
+          </form>
+
+          {this.state.searchError && (
+            <p className="weather-search__error">{this.state.searchError}</p>
+          )}
+          <p>{this.props.errorAddTown}</p>
+          {this.state.errTownAdd && (
+            <p className="weather-search__error-add">
+              Can't add town, you must be loged in. You may do it there
+              <Link to="/sign-in" className="sign-in-form__registrations">
+                >
+              </Link>
+            </p>
+          )}
+          <Route path={`/:townId`} component={WeatherCards} />
         </div>
       </section>
     );
