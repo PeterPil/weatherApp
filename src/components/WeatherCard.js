@@ -17,11 +17,18 @@ function WeatherCard(props) {
     <div
       className="weather-cards-content-item"
       onClick={() => {
-        props.setWeatherDay(info.dt_txt);
+        if(props.weatherType === "fiveDay") {
+          props.history.push(`${props.match.url}/${format(info.dt_txt, "YYYY-MM-DD")}`)
+          props.setWeatherDay(info.dt_txt);
         props.setWeatherType("today");
+        }
+        
+        
+        console.log(props);
+        
+        
       }}
     >
-      <Link to={`/${props.match.params.townId}/${format(info.dt_txt, "YYYY-MM-DD")}`}>
         <div className="weather-cards-content-item__date">
           {props.weatherType === "today"
             ? format(info.dt_txt, "HH:mm")
@@ -69,7 +76,6 @@ function WeatherCard(props) {
             {info.main.humidity} %
           </p>
         </div>
-      </Link>
     </div>
   );
 }

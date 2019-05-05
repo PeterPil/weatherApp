@@ -26,7 +26,7 @@ class SignIn extends Component {
 
     render() {
         if (!this.props.isEmpty) {
-            return <Redirect to='/'/>
+            return <Redirect to='/users-weather'/>
         }
         return (
             <section className="sign-in">

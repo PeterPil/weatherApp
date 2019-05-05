@@ -6,10 +6,7 @@ import { ConnectedCarousel } from "./Carousel";
 import WeatherForOneDay from "./WeatherForOneDay";
 
 class WeatherCards extends Component {
-  componentDidMount() {
-    this.props.fetchWeather(this.props.match.params.townId);
-  }
-
+  
   render() {
     return (
       <div>

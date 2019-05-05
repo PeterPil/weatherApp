@@ -19,17 +19,19 @@ export const fetchWeather = searchValue => {
             city: res.data.city
           };
         } else {
-          // console.log("Server Error!");
+          console.log("Server Error!");
           throw res;
         }
       })
       .then(({ status, list, city }) => {
         if (status === 200) {
+          // dispatch({ type: "RESET_LIST_OF_WEATHER" });
           dispatch({ type: "SET_DAY_OF_WEATHER", weatherDay: list[0].dt_txt });
           return dispatch({ type: "SET_LIST_OF_WEATHER", list, city });
         }
       })
       .catch(error => {
+        console.log(error);
         dispatch({ type: "RESET_LIST_OF_WEATHER" });
         console.error(error);
       });

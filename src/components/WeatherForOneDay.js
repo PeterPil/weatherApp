@@ -2,9 +2,13 @@ import { Component } from "react";
 import { withRouter } from "react-router-dom";
 import connect from "react-redux/es/connect/connect";
 import React from "react";
-import { Carousel } from "./Carousel";
+import {Carousel, RoutedCarousel} from "./Carousel";
+import * as weatherActions from "../actions/weatherActions";
 
 class WeatherForOneDay extends Component {
+  componentDidMount() {
+    this.props.setWeatherTypeReducer("today");
+  }
   render() {
     const data = this.props.weatherList.filter(
       item => item.dt_txt.split(" ")[0] === this.props.match.params.date
@@ -13,7 +17,7 @@ class WeatherForOneDay extends Component {
       return <div>Error </div>;
     }
     return (
-      <Carousel
+      <RoutedCarousel
         weather={{
           list: data,
           city: this.props.city,
@@ -25,12 +29,23 @@ class WeatherForOneDay extends Component {
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    weatherList: state.weatherReducer.list,
+      city: state.weatherReducer.city
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    
+    setWeatherTypeReducer: weatherType =>
+      dispatch(weatherActions.setWeatherType(weatherType))
+  }
+}
 export default withRouter(
   connect(
-    state => ({
-      weatherList: state.weatherReducer.list,
-      city: state.weatherReducer.city
-    }),
-    {}
+    mapStateToProps,
+    mapDispatchToProps
   )(WeatherForOneDay)
 );

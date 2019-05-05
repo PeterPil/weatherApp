@@ -11,7 +11,7 @@ import WeatherCards from "./WeatherCards";
 class WeatherSearch extends Component {
   state = {
     searchTown: "",
-    weatherType: "today",
+    weatherType: "fiveDay",
     searchError: null,
     errTownAdd: false,
     redirect: false
@@ -20,6 +20,8 @@ class WeatherSearch extends Component {
 
   submitTown = e => {
     e.preventDefault();
+    this.props.fetchWeather(this.state.searchTown);
+    this.props.setWeatherTypeReducer(this.state.weatherType);
     if (this.state.weatherType === "today") {
       const todayDate = format(new Date(), "YYYY-MM-DD");
       this.props.history.push(`/${this.state.searchTown}/${todayDate}`);
@@ -67,9 +69,9 @@ class WeatherSearch extends Component {
           <h1 className="weather-search__title">
             Check the weather in your town
           </h1>
-          <div className="weather-search-container">
-            <form className="weather-search-field" onSubmit={this.submitTown}>
-              <input
+            <form className="weather-search-form" onSubmit={this.submitTown}>
+              <div className="weather-search-field">
+                <input
                 type="text"
                 id="text"
                 placeholder="Enter town"
@@ -85,8 +87,8 @@ class WeatherSearch extends Component {
                 icon={faTimes}
                 className="weather-search-field__cancel"
               />
-            </form>
-            <div className="weather-search-params">
+              </div>
+              <div className="weather-search-params">
               <div className="weather-search-params-type">
                 <label className="weather-search-params-type__item">
                   <input
@@ -121,6 +123,8 @@ class WeatherSearch extends Component {
                 Add town
               </button>
             </div>
+            </form>
+            
             {this.state.searchError && (
               <p className="weather-search__error">{this.state.searchError}</p>
             )}
@@ -133,11 +137,11 @@ class WeatherSearch extends Component {
                 </Link>
               </p>
             )}
-          </div>
           <Route
             path={`/:townId`}
             component={WeatherCards}
           />
+          
         </div>
       </section>
     );

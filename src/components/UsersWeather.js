@@ -40,7 +40,7 @@ class UsersWeather extends Component {
   };
 
   renderCards() {
-    return this.props.usersTown.town
+    return this.props.usersTown
       ? this.props.usersTown.town.map(town => (
           <UsersCard
             town={town}
@@ -50,7 +50,7 @@ class UsersWeather extends Component {
             path={this.props.match.path}
           />
         ))
-      : null;
+      : [];
   }
 
   render() {
@@ -83,9 +83,9 @@ class UsersWeather extends Component {
                         responsive={responsive}
                         infinite={false}
                         items={[
-                          <AddTownCard
+                          (this.props.usersTown ? <AddTownCard
                             usersTowns={this.props.usersTown.town}
-                          />,
+                          /> : null),
                           ...this.renderCards()
                         ]}
                       />
@@ -97,12 +97,8 @@ class UsersWeather extends Component {
                   }}
                 />
                 <Route
-                  path={`${this.props.match.path}/${this.props.city.name}`}
-                  render={() => (
-                    <div className="users-weather__items">
-                      <WeatherCards routeLocation={this.props.location}/>
-                    </div>
-                  )}
+                  path={`${this.props.match.path}/:townId`}
+                  component={WeatherCards}
                 />
               </Switch>
           </div>
@@ -114,7 +110,9 @@ class UsersWeather extends Component {
 
 const mapStateToProps = state => {
   return {
-    usersTown: state.firestore.ordered.usersTowns[0],
+    usersTown: state.firestore.ordered.usersTowns
+      ? state.firestore.ordered.usersTowns[0]
+      : {},
     city: state.weatherReducer.city,
     isEmpty: state.firebase.auth.isEmpty
   };
