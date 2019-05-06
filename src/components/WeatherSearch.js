@@ -7,8 +7,12 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { Link, Route, withRouter } from "react-router-dom";
 import WeatherCards from "./WeatherCards";
+import { toast } from "react-toastify";
 
 class WeatherSearch extends Component {
+  componentDidMount() {
+    // this.toastify();
+  }
   state = {
     searchTown: "",
     weatherType: "fiveDay",
@@ -20,7 +24,13 @@ class WeatherSearch extends Component {
 
   submitTown = e => {
     e.preventDefault();
+
+    if (this.state.searchTown === "") {
+      this.toastify("Enter correct town");
+      return;
+    }
     this.props.fetchWeather(this.state.searchTown);
+
     this.props.setWeatherTypeReducer(this.state.weatherType);
     if (this.state.weatherType === "today") {
       const todayDate = format(new Date(), "YYYY-MM-DD");
@@ -30,13 +40,15 @@ class WeatherSearch extends Component {
     }
   };
 
+  toastify = message => {
+    return toast.error(message);
+  };
+
   addingTown = () => {
     if (!this.props.isEmpty) {
-      if (this.state.searchTown === "") {
-        return this.setState({ searchError: "Can't add empty string" });
-      }
       if (!this.props.list.length) {
-        return this.setState({ searchError: "There is no city. Try again" });
+        this.toastify("There is no city. Try again");
+        return
       }
       this.props.addTownToFirebase(this.props.city, this.props.usersTown.town);
       this.setState({ searchError: null });
@@ -125,10 +137,6 @@ class WeatherSearch extends Component {
             </div>
           </form>
 
-          {this.state.searchError && (
-            <p className="weather-search__error">{this.state.searchError}</p>
-          )}
-          <p>{this.props.errorAddTown}</p>
           {this.state.errTownAdd && (
             <p className="weather-search__error-add">
               Can't add town, you must be loged in. You may do it there
@@ -153,8 +161,7 @@ const mapStateToProps = state => {
     city: state.weatherReducer.city,
     list: state.weatherReducer.list,
     weatherType: state.weatherReducer.weatherType,
-    weatherDay: state.weatherReducer.weatherDay,
-    errorAddTown: state.townToFirebaseReducer.errAdd
+    weatherDay: state.weatherReducer.weatherDay
   };
 };
 

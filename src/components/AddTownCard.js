@@ -10,8 +10,11 @@ class AddTownCard extends Component {
 
   addingTown = async e => {
     e.preventDefault();
+    console.log('click', this.state.addedTown);
     const res = await this.props.fetchWeather(this.state.addedTown);
-    if (res) {
+          console.log('res', res);
+
+    if (!res) {
       this.props.addTown(this.props.weather.city, this.props.usersTowns);
     }
   };

@@ -9,6 +9,8 @@ import Registration from "./Registration";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import PrivateRoute from "./PrivateRoute";
+import { ToastContainer, toast } from "react-toastify";
+toast.configure();
 
 class Weather extends Component {
   render() {
@@ -36,6 +38,18 @@ class Weather extends Component {
           />
           <Route path="/" component={WeatherSearch} />
         </Switch>
+        <ToastContainer
+          className="toaster"
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnVisibilityChange
+          draggable
+          pauseOnHover
+        />
       </div>
     );
   }

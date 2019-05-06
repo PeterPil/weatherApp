@@ -1,10 +1,10 @@
 import React, { Component } from "react";
+import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import { ReactReduxFirebaseProvider } from "react-redux-firebase";
 
 import Weather from "./components/Weather";
 import store from "./store/store";
-import { Provider } from "react-redux";
 import rrfProps from "./Firebase/rrfProps";
 
 class App extends Component {

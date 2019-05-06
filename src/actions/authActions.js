@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 export const signIn = param => {
   return async (dispatch, getState, { firebase }) => {
     try {
@@ -6,11 +7,11 @@ export const signIn = param => {
         password: param.password
       });
       if (response.user) {
-        dispatch({ type: "SIGN_IN_SUCCESS" });
+        toast.success("Log in successful");
       }
     } catch (err) {
-      dispatch({ type: "SIGN_IN_ERROR", errorIn: err.message });
       console.error(err);
+      toast.error(err.message);
     }
   };
 };
@@ -28,30 +29,29 @@ export const authWithGoogle = () => {
           .collection("users")
           .doc(firebase.auth().currentUser.uid);
         const getUserDate = await userDate.get();
-          
-          if (getUserDate.data().town) {
-            userDate.set(
-              {
-                id: response.user.uid
-              },
-              { merge: true }
-            );
-          } else {
-            userDate.set(
-              {
-                id: response.user.uid,
-                town: []
-              },
-              { merge: true }
-            );
-          };
-        
 
-        dispatch({ type: "SIGN_IN_SUCCESS" });
+        if (getUserDate.data().town) {
+          userDate.set(
+            {
+              id: response.user.uid
+            },
+            { merge: true }
+          );
+        } else {
+          userDate.set(
+            {
+              id: response.user.uid,
+              town: []
+            },
+            { merge: true }
+          );
+        }
+        toast.success("Log in successful");
       }
     } catch (err) {
-      dispatch({ type: "SIGN_IN_ERROR", errorIn: err.message });
+      toast.error(err.message);
       console.error(err);
+
     }
   };
 };
@@ -60,14 +60,10 @@ export const signOut = () => {
   return async (dispatch, getState, { firebase }) => {
     try {
       const response = await firebase.auth().signOut();
-      if (response) {
-        dispatch({ type: "SIGN_OUT_SUCCESS" });
-      } else {
-        dispatch({ type: "SIGN_OUT_ERROR" });
-      }
+        toast.success(`You are logged out`);
     } catch (err) {
-      dispatch({ type: "SIGN_OUT_ERROR", errorOut: err.message });
       console.error(err);
+      toast.error(err.message);
     }
   };
 };
@@ -75,6 +71,10 @@ export const signOut = () => {
 export const registration = params => {
   return async (dispatch, getState, { firebase }) => {
     try {
+      if (!params.name.length) {
+        toast.error("UserName is required");
+        return;
+      }
       const response = await firebase.createUser({
         email: params.email,
         password: params.password
@@ -92,14 +92,11 @@ export const registration = params => {
             },
             { merge: true }
           );
-
-        dispatch({ type: "REGISTRATION_SUCCESS" });
-      } else {
-        dispatch({ type: "REGISTRATION_ERROR" });
+        toast.success(`Profile ${params.name} successfuly created`);
       }
     } catch (err) {
-      dispatch({ type: "REGISTRATION_ERROR", errorReg: err.message });
       console.error(err);
+      toast.error(err.message);
     }
   };
 };

@@ -1,18 +1,15 @@
+import { toast } from "react-toastify";
+
 export const addTownToFirebase = (town, townsList) => {
   return async (dispatch, getState, { firebase }) => {
     try {
       if (townsList.length !== 0) {
         const currentTown = await townsList.find(item => town.id === item.id);
         if (currentTown) {
-          return dispatch({
-            type: "ADD_NEW_TOWN_ERROR",
-            err: "This town is in your list"
-          });
-        } else {
-          dispatch({ type: "ADD_NEW_TOWN_ERROR", err: null });
+          toast.error("This town is in your list");
+          return;
         }
       }
-
       const arr = [{ ...town }, ...townsList];
       const response = await firebase
         .firestore()
@@ -24,11 +21,11 @@ export const addTownToFirebase = (town, townsList) => {
           },
           { merge: true }
         );
-      if (response) {
-        dispatch({ type: "ADD_NEW_TOWN", town });
+      if (!response) {
+        toast.success(`Successfuly added ${town.name}`);
       }
     } catch (err) {
-      dispatch({ type: "ADD_NEW_TOWN_ERROR", err: err.message });
+      toast.error(err.message);
       console.error(err);
     }
   };
@@ -52,12 +49,12 @@ export const deleteTownFromFirebase = (id, townsList) => {
           },
           { merge: true }
         );
-      if (response) {
-        dispatch({ type: "DELETE_TOWN_SUCCESS" });
+      if (!response) {
+        toast.success(`Successfuly deleted`);
       }
     } catch (err) {
-      dispatch({ type: "DELETE_TOWN_ERROR", err: err.message });
       console.log(err);
+      toast.error(err.message);
     }
   };
 };

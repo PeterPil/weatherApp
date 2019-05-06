@@ -45,9 +45,6 @@ class SignIn extends Component {
                 className="input sign-in-form__input"
               />
               <div className="sign-in-form__submit">
-                {this.props.errorIn && (
-                  <p className="sign-in-form__error">{this.props.errorIn}</p>
-                )}
                 <input
                   type="submit"
                   value="Sign in"
@@ -80,7 +77,6 @@ class SignIn extends Component {
 const mapStateToProps = state => {
   return {
     isEmpty: state.firebase.auth.isEmpty,
-    errorIn: state.authReducer.errorIn
   };
 };
 

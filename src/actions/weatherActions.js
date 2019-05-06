@@ -1,5 +1,6 @@
-import api from "../api";
 import { transliterate as tr } from "transliteration";
+
+import { toast } from "react-toastify";
 
 export const fetchWeather = searchValue => {
   return async (dispatch, getState) => {
@@ -9,15 +10,25 @@ export const fetchWeather = searchValue => {
         q: tr(searchValue),
         units: "metric"
       };
-      const apiResponse = await api.get("/forecast", { params });
-      if (apiResponse.data.cod < 500) {
-        const { cod, city, list } = apiResponse.data;
+      const url = new URL("https://api.openweathermap.org/data/2.5/forecast");
+      Object.keys(params).forEach(key =>
+        url.searchParams.append(key, params[key])
+      );
+      const apiResponse = await fetch(url);
+      const res = await apiResponse.json();
+      if (Number.parseInt(res.cod) < 500) {
+        const { cod, city, list } = res;
+        if (Number.parseInt(cod) === 404) {
+          toast.error("Enter correct town");
+        }
         if (Number.parseInt(cod) === 200) {
           dispatch({ type: "SET_DAY_OF_WEATHER", weatherDay: list[0].dt_txt });
           dispatch({ type: "SET_LIST_OF_WEATHER", list, city });
+          return { list, city };
         }
       }
     } catch (err) {
+      dispatch({ type: "RESET_LIST_OF_WEATHER" });
       console.log(err);
     }
   };

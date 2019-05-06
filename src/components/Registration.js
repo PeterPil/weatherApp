@@ -22,9 +22,6 @@ class Registration extends Component {
   };
 
   render() {
-    if (!this.props.isEmpty) {
-      return <Redirect to="/" />;
-    }
     return (
       <section className="registrations">
         <div className="container">
@@ -68,7 +65,6 @@ class Registration extends Component {
 const mapStateToProps = state => {
   return {
     isEmpty: state.firebase.auth.isEmpty,
-    errorReg: state.authReducer.errorReg
   };
 };
 
