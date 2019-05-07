@@ -8,12 +8,22 @@
   }
 
   &-form {
-    &__input {
-      height: 50px;
-      width: 350px;
-      font-size: 18px;
+    width: 350px;
+    &-input {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
       margin-bottom: 20px;
+      &__input {
+        height: 50px;
+        font-size: 18px;
+      }
+      &__label {
+        font-size: 14px;
+        margin-bottom: 5px;
+      }
     }
+
     &__submit {
       position: relative;
       font-size: 18px;
@@ -49,7 +59,10 @@
       text-decoration: underline;
       color: #fff;
       margin-left: 10px;
-      font-size: 20px;
+      font-size: 24px;
+    }
+    &__redirect {
+      text-align: center;
     }
   }
 }

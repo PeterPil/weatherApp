@@ -5,14 +5,13 @@ import { format } from "date-fns";
 import { userToFirebaseActions, weatherActions } from "../actions";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { Link, Route, withRouter } from "react-router-dom";
+import { Route, withRouter } from "react-router-dom";
 import WeatherCards from "./WeatherCards";
 import { toast } from "react-toastify";
+import SignInRedirect from "./SignInRedirect";
 
 class WeatherSearch extends Component {
-  componentDidMount() {
-    // this.toastify();
-  }
+  
   state = {
     searchTown: "",
     weatherType: "fiveDay",
@@ -20,17 +19,14 @@ class WeatherSearch extends Component {
     errTownAdd: false,
     redirect: false
   };
-  refTown = React.createRef();
 
   submitTown = e => {
     e.preventDefault();
-
     if (this.state.searchTown === "") {
-      this.toastify("Enter correct town");
+      toast.error("Enter correct town");
       return;
     }
     this.props.fetchWeather(this.state.searchTown);
-
     this.props.setWeatherTypeReducer(this.state.weatherType);
     if (this.state.weatherType === "today") {
       const todayDate = format(new Date(), "YYYY-MM-DD");
@@ -39,29 +35,19 @@ class WeatherSearch extends Component {
       this.props.history.push(`/${this.state.searchTown}`);
     }
   };
-
-  toastify = message => {
-    return toast.error(message);
-  };
-
+  
   addingTown = () => {
     if (!this.props.isEmpty) {
       if (!this.props.list.length) {
-        this.toastify("There is no city. Try again");
-        return
+        toast.error("There is no city. Try again");
+        return;
       }
       this.props.addTownToFirebase(this.props.city, this.props.usersTown.town);
-      this.setState({ searchError: null });
-      return this.setState({
-        errTownAdd: false
-      });
+    } else {
+      toast.warn(<SignInRedirect />)
     }
-    this.setState({
-      errTownAdd: true
-    });
   };
   cancelSearchTown = e => {
-    this.refTown.current.value = "";
     this.setState({ searchTown: "" });
   };
   setWeatherType = e => {
@@ -87,7 +73,7 @@ class WeatherSearch extends Component {
                 type="text"
                 id="text"
                 placeholder="Enter town"
-                ref={this.refTown}
+                value={this.state.searchTown}
                 className="input weather-search-field__input"
                 onChange={this.handleChange}
               />
@@ -129,6 +115,7 @@ class WeatherSearch extends Component {
                 </label>
               </div>
               <button
+                type="button"
                 className="weather-search-params__add"
                 onClick={this.addingTown}
               >
@@ -137,14 +124,6 @@ class WeatherSearch extends Component {
             </div>
           </form>
 
-          {this.state.errTownAdd && (
-            <p className="weather-search__error-add">
-              Can't add town, you must be loged in. You may do it there
-              <Link to="/sign-in" className="sign-in-form__registrations">
-                >
-              </Link>
-            </p>
-          )}
           <Route path={`/:townId`} component={WeatherCards} />
         </div>
       </section>
@@ -154,6 +133,7 @@ class WeatherSearch extends Component {
 
 const mapStateToProps = state => {
   return {
+    isLoadingFetch: state.loaderReducer.isLoadingFetch,
     usersTown: state.firestore.ordered.usersTowns
       ? state.firestore.ordered.usersTowns[0]
       : {},

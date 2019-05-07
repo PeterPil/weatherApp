@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { authActions } from "../actions";
+import InputWithLabel from "./InputWithLabel";
 
 class SignIn extends Component {
   state = {
@@ -30,20 +31,23 @@ class SignIn extends Component {
         <div className="container">
           <div className="sign-in-main">
             <form onSubmit={this.handelSubmit} className="sign-in-form">
-              <input
-                type="email"
-                id="email"
+              <InputWithLabel
+                className="sign-in-form-input"
                 placeholder="Your email"
+                labelText="Enter email"
+                id="email"
+                type="email"
                 onChange={this.handleChange}
-                className="input sign-in-form__input"
               />
-              <input
-                type="password"
-                id="password"
+              <InputWithLabel
+                className="sign-in-form-input"
                 placeholder="Your password"
+                labelText="Enter password"
+                id="password"
+                type="password"
                 onChange={this.handleChange}
-                className="input sign-in-form__input"
               />
+              
               <div className="sign-in-form__submit">
                 <input
                   type="submit"
@@ -60,7 +64,7 @@ class SignIn extends Component {
               <p className="sign-in-form__redirect">
                 Haven't account yet? Go there
                 <Link
-                  to={"/registration/user"}
+                  to={"/registration"}
                   className="sign-in-form__registrations"
                 >
                   >
@@ -76,7 +80,7 @@ class SignIn extends Component {
 
 const mapStateToProps = state => {
   return {
-    isEmpty: state.firebase.auth.isEmpty,
+    isEmpty: state.firebase.auth.isEmpty
   };
 };
 

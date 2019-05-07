@@ -4,6 +4,9 @@ import WeatherCardsCarousel from "./WeatherCardsCarousel";
 import connect from "react-redux/es/connect/connect";
 import { weatherActions } from "../actions";
 import { withRouter } from "react-router";
+import Loader from "react-loader-spinner";
+import CarouselItemHOCLoader from "./CarouselHOCLoader";
+import CarouselItem from "./CarouselItem";
 
 class Carousel extends Component {
   componentDidMount() {
@@ -15,33 +18,19 @@ class Carousel extends Component {
       this.props.setWeatherTypeReducer("fiveDay");
     }
   }
-  renderDate(weather) {
-    if (weather.weatherType === "today") {
-      return format(weather.weatherDay, "DD");
-    } else {
-      return null;
-    }
-  }
+  
   render() {
+    
     const { weather } = this.props;
     return (
-      <section className="weather-cards">
-        <h2 className="weather-cards__title">
-          {weather.city.name},{weather.city.country}
-          {this.renderDate(weather)}
-        </h2>
-        <div className="row">
-          <div className="weather-cards-content">
-            <WeatherCardsCarousel weather={weather} />
-          </div>
-        </div>
-      </section>
+      <CarouselItemHOCLoader weather={weather}/>
     );
   }
 }
 
 function mapStateToProps(state) {
   return {
+    isLoadingFetch: state.loaderReducer.isLoadingFetch,
     weather: state.weatherReducer
   };
 }
@@ -66,4 +55,4 @@ const RoutedCarousel = withRouter(
     mapDispatchToProps
   )(Carousel)
 );
-export { RoutedCarousel, ConnectedCarousel };
+export { RoutedCarousel, ConnectedCarousel};

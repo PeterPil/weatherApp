@@ -10,11 +10,8 @@ class AddTownCard extends Component {
 
   addingTown = async e => {
     e.preventDefault();
-    console.log('click', this.state.addedTown);
     const res = await this.props.fetchWeather(this.state.addedTown);
-          console.log('res', res);
-
-    if (!res) {
+    if (res) {
       this.props.addTown(this.props.weather.city, this.props.usersTowns);
     }
   };
@@ -59,7 +56,6 @@ class AddTownCard extends Component {
             <div className="users-card__add-item" onClick={this.handleClick} />
           </div>
         )
-        // : <FontAwesomeIcon className="users-card__add" icon={faPlus} onClick={this.handleClick}/>
         }
       </div>
     );

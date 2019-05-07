@@ -14,8 +14,11 @@ export const fetchWeather = searchValue => {
       Object.keys(params).forEach(key =>
         url.searchParams.append(key, params[key])
       );
+      dispatch({ type: "IS_LOADING_FETCH" });
       const apiResponse = await fetch(url);
       const res = await apiResponse.json();
+                dispatch({ type: "RESET_LOADING" });
+
       if (Number.parseInt(res.cod) < 500) {
         const { cod, city, list } = res;
         if (Number.parseInt(cod) === 404) {
@@ -29,6 +32,7 @@ export const fetchWeather = searchValue => {
       }
     } catch (err) {
       dispatch({ type: "RESET_LIST_OF_WEATHER" });
+      dispatch({ type: "RESET_LOADING" });
       console.log(err);
     }
   };

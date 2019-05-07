@@ -1,16 +1,20 @@
 import { toast } from "react-toastify";
+
 export const signIn = param => {
   return async (dispatch, getState, { firebase }) => {
     try {
+      dispatch({ type: "IS_LOADING" });
       const response = await firebase.login({
         email: param.email,
         password: param.password
       });
       if (response.user) {
+        dispatch({ type: "RESET_LOADING" });
         toast.success("Log in successful");
       }
     } catch (err) {
       console.error(err);
+      dispatch({ type: "RESET_LOADING" });
       toast.error(err.message);
     }
   };
@@ -19,11 +23,13 @@ export const signIn = param => {
 export const authWithGoogle = () => {
   return async (dispatch, getState, { firebase }) => {
     try {
+      dispatch({ type: "IS_LOADING" });
       const response = await firebase.login({
         provider: "google",
         type: "popup"
       });
       if (response.user) {
+        dispatch({ type: "RESET_LOADING" });
         const userDate = await firebase
           .firestore()
           .collection("users")
@@ -49,9 +55,9 @@ export const authWithGoogle = () => {
         toast.success("Log in successful");
       }
     } catch (err) {
+      dispatch({ type: "RESET_LOADING" });
       toast.error(err.message);
       console.error(err);
-
     }
   };
 };
@@ -59,10 +65,13 @@ export const authWithGoogle = () => {
 export const signOut = () => {
   return async (dispatch, getState, { firebase }) => {
     try {
+      dispatch({ type: "IS_LOADING" });
       const response = await firebase.auth().signOut();
-        toast.success(`You are logged out`);
+      dispatch({ type: "RESET_LOADING" });
+      toast.success(`You are logged out`);
     } catch (err) {
       console.error(err);
+      dispatch({ type: "RESET_LOADING" });
       toast.error(err.message);
     }
   };
@@ -75,11 +84,21 @@ export const registration = params => {
         toast.error("UserName is required");
         return;
       }
+      if (
+        !params.confirmedPassword.length ||
+        params.password !== params.confirmedPassword
+      ) {
+        toast.error("Uncorrect confirmed password");
+        return;
+      }
+      dispatch({ type: "IS_LOADING" });
+
       const response = await firebase.createUser({
         email: params.email,
         password: params.password
       });
-      if (response.user) {
+      if (response.email) {
+        dispatch({ type: "RESET_LOADING" });
         await firebase
           .firestore()
           .collection("users")
@@ -96,6 +115,7 @@ export const registration = params => {
       }
     } catch (err) {
       console.error(err);
+      dispatch({ type: "RESET_LOADING" });
       toast.error(err.message);
     }
   };

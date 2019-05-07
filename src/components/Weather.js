@@ -9,10 +9,15 @@ import Registration from "./Registration";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import PrivateRoute from "./PrivateRoute";
-import { ToastContainer, toast } from "react-toastify";
-toast.configure();
+import Loader from "react-loader-spinner";
 
 class Weather extends Component {
+  componentWillMount() {
+    this.props.setLoading();
+  }
+  componentDidMount() {
+    this.props.resetLoading();
+  }
   render() {
     return (
       <div className="wrap">
@@ -38,18 +43,6 @@ class Weather extends Component {
           />
           <Route path="/" component={WeatherSearch} />
         </Switch>
-        <ToastContainer
-          className="toaster"
-          position="top-right"
-          autoClose={3000}
-          hideProgressBar
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnVisibilityChange
-          draggable
-          pauseOnHover
-        />
       </div>
     );
   }
@@ -57,16 +50,25 @@ class Weather extends Component {
 
 const mapStateToProps = state => {
   return {
+    isLoadingFetch: state.loaderReducer.isLoadingFetch,
+    isLoading: state.loaderReducer.isLoading,
     auth: state.firebase.auth,
     isEmpty: state.firebase.auth.isEmpty
   };
 };
 
+const mapDispatchToProps = dispatch => {
+  return {
+    setLoading: () => dispatch({type: "IS_LOADING"}),
+    resetLoading: () => dispatch({type: "RESET_LOADING"})
+  }
+}
+
 export default compose(
   withRouter,
   connect(
     mapStateToProps,
-    null
+    mapDispatchToProps
   ),
   firestoreConnect(props => [
     {

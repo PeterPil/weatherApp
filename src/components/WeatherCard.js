@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import connect from "react-redux/es/connect/connect";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLongArrowAltUp } from "@fortawesome/free-solid-svg-icons";
@@ -25,7 +25,6 @@ function WeatherCard(props) {
           props.setWeatherType("today");
         }
 
-        console.log(props);
       }}
     >
       <div className="weather-cards-content-item__date">

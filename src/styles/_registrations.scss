@@ -7,11 +7,32 @@
     align-items: center;
   }
   &-form {
-    &__input {
-      height: 50px;
-      width: 350px;
-      font-size: 18px;
+    width: 350px;
+    &-input {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
       margin-bottom: 20px;
+      &__input {
+        height: 50px;
+        font-size: 18px;
+      }
+      &__label {
+        font-size: 14px;
+        margin-bottom: 5px;
+      }
+    }
+
+    &__info {
+      font-size: 12px;
+      color: #d6d6d6;
+      display: block;
+      transform: translateY(-20px);
+      strong {
+        transform: translateY(10px);
+        display: inline-block;
+        font-size: 24px;
+      }
     }
     &__submit {
       height: 100%;

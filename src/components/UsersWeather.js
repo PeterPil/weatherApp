@@ -46,7 +46,6 @@ class UsersWeather extends Component {
             town={town}
             key={town.id}
             usersTowns={this.props.usersTown.town}
-            setUrlPath={this.setUrlPath}
             path={this.props.match.path}
           />
         ))

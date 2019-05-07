@@ -26,6 +26,7 @@
     "react": "^16.8.6",
     "react-alice-carousel": "^1.13.11",
     "react-dom": "^16.8.6",
+    "react-loader-spinner": "^2.3.0",
     "react-redux": "^6.0.1",
     "react-redux-firebase": "^3.0.0-alpha.10",
     "react-router": "^5.0.0",

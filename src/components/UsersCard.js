@@ -14,12 +14,32 @@ function UsersCard(props) {
           onClick={() => {
             props.fetchWeather(props.town.name);
             props.setWeatherTypeReducer("fiveDay");
-            props.setUrlPath(props.town.name);
           }}
         >
           {props.town.name}
         </Link>
       </h2>
+
+      <div className="users-card-info">
+        <p className="users-card-info__text">country</p>
+        <p className="users-card-info__value">{props.town.country}</p>
+      </div>
+      <div className="users-card-info">
+        <p className="users-card-info__text">location</p>
+        <div className="users-card-info__value">
+          <p className="users-card-info__value-text">
+            lat: {props.town.coord.lat}
+          </p>
+          <p className="users-card-info__value-text">
+            lon: {props.town.coord.lon}
+          </p>
+        </div>
+        
+      </div>
+      <div className="users-card-info">
+        <p className="users-card-info__text">population</p>
+        <p className="users-card-info__value">{props.town.population}</p>
+      </div>
 
       <button
         onClick={() => {

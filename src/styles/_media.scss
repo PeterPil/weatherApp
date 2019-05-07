@@ -19,6 +19,9 @@
       right: 15px;
     }
   }
+  .users-weather-btn {
+    top: 35px;
+  }
 }
 
 @media only screen and (min-width: 430px) {
@@ -26,5 +29,12 @@
     &__cancel {
       left: 54%;
     }
+  }
+}
+
+@media only screen and (max-width: 430px) {
+  .sign-in-form,
+  .registrations-form {
+    width: 100%;
   }
 }

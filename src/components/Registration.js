@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { authActions } from "../actions";
-import { Redirect } from "react-router";
+import InputWithLabel from "./InputWithLabel";
 
 class Registration extends Component {
   state = {
     email: "",
     password: "",
+    confirmedPassword: "",
     name: ""
   };
 
@@ -27,34 +28,47 @@ class Registration extends Component {
         <div className="container">
           <div className="registrations-main">
             <form onSubmit={this.handelSubmit} className="registrations-form">
-              <input
-                type="email"
+              <InputWithLabel
+                className="registrations-form-input"
+                placeholder="Your email"
+                labelText="Enter email*"
                 id="email"
-                placeholder="Email"
+                type="email"
                 onChange={this.handleChange}
-                className="input registrations-form__input"
               />
-              <input
-                type="password"
+              <InputWithLabel
+                className="registrations-form-input"
+                placeholder="Your password"
+                labelText="Enter password*"
                 id="password"
-                placeholder="Password"
+                type="password"
                 onChange={this.handleChange}
-                className="input registrations-form__input"
               />
-              <input
-                type="text"
-                id="name"
+              <InputWithLabel
+                className="registrations-form-input"
+                placeholder="Your password"
+                labelText="Confirm password*"
+                id="confirmedPassword"
+                type="password"
+                onChange={this.handleChange}
+              />
+              <InputWithLabel
+                className="registrations-form-input"
                 placeholder="UserName"
+                labelText="Enter your username*"
+                id="name"
+                type="text"
                 onChange={this.handleChange}
-                className="input registrations-form__input"
               />
+              <p className="registrations-form__info">
+                <strong>*</strong> - means requirement field
+              </p>
               <input
                 type="submit"
                 value="Registration"
                 className="registrations-form__submit"
               />
             </form>
-            {this.props.errorReg && <p>{this.props.errorReg}</p>}
           </div>
         </div>
       </section>
@@ -64,7 +78,7 @@ class Registration extends Component {
 
 const mapStateToProps = state => {
   return {
-    isEmpty: state.firebase.auth.isEmpty,
+    isEmpty: state.firebase.auth.isEmpty
   };
 };
 

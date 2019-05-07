@@ -27,6 +27,7 @@ class WeatherCards extends Component {
 
 function mapStateToProps(state) {
   return {
+    isLoadingFetch: state.loaderReducer.isLoadingFetch,
     weather: state.weatherReducer
   };
 }
