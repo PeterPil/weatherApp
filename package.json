@@ -1,7 +1,6 @@
 {
   "name": "weather-app",
   "version": "0.1.0",
-  "homepage": "https://light-weather.herokuapp.com/",
   "private": true,
   "dependencies": {
     "@brainhubeu/react-carousel": "^1.10.17",
