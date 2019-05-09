@@ -6,9 +6,22 @@ import { ConnectedCarousel } from "./Carousel";
 import WeatherForOneDay from "./WeatherForOneDay";
 
 class WeatherCards extends Component {
+  scrollRef = React.createRef();
+  componentDidMount() {
+    const position = this.scrollRef.current.offsetTop;
+    window.scroll(0, position)
+  }
+  
+  componentDidUpdate(nextProps) {
+    if(this.props.match.url !== nextProps.match.url) {
+      const position = this.scrollRef.current.offsetTop;
+        window.scroll(0, position)
+
+    }
+  }
   render() {
     return (
-      <div>
+      <div ref={this.scrollRef}>
         <Switch>
           <Route
             path={`${this.props.match.path}/:date`}

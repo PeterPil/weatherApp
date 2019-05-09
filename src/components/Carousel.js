@@ -18,12 +18,24 @@ class Carousel extends Component {
       this.props.setWeatherTypeReducer("fiveDay");
     }
   }
-  
+  componentDidUpdate(nextProps) {
+    if (this.props.match.url !== nextProps.match.url) {
+      this.props.fetchWeather(this.props.match.params.townId);
+      if (
+        this.props.match.url === `/${this.props.weather.city.name}` ||
+        this.props.match.url ===
+          `/users-weather/${this.props.weather.city.name}`
+      ) {
+        this.props.setWeatherTypeReducer("fiveDay");
+      }
+    }
+  }
   render() {
-    
-    const { weather } = this.props;
-    return (
-      <CarouselItemHOCLoader weather={weather}/>
+    const { weather, isError } = this.props;
+    return isError ? (
+      <p className="weather-search__error">404 Not Found</p>
+    ) : (
+      <CarouselItemHOCLoader weather={weather} />
     );
   }
 }
@@ -31,7 +43,8 @@ class Carousel extends Component {
 function mapStateToProps(state) {
   return {
     isLoadingFetch: state.loaderReducer.isLoadingFetch,
-    weather: state.weatherReducer
+    weather: state.weatherReducer,
+    isError: state.errorReducer.isError
   };
 }
 
@@ -55,4 +68,4 @@ const RoutedCarousel = withRouter(
     mapDispatchToProps
   )(Carousel)
 );
-export { RoutedCarousel, ConnectedCarousel};
+export { RoutedCarousel, ConnectedCarousel };

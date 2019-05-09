@@ -14,7 +14,7 @@ class WeatherSearch extends Component {
   
   state = {
     searchTown: "",
-    weatherType: "fiveDay",
+    weatherType: "today",
     searchError: null,
     errTownAdd: false,
     redirect: false

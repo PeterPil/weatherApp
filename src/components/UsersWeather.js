@@ -57,14 +57,11 @@ class UsersWeather extends Component {
       <section className="users-section">
         <div className="container">
           <div className="users-weather">
-            <h1 className="users-weather__title">
-              <UserPrevButton
-                {...this.props}
-                className="bordered-btn users-weather-btn"
-              />
-              UsersWeather
-            </h1>
-
+            <h1 className="users-weather__title">UsersWeather</h1>
+            <UserPrevButton
+              {...this.props}
+              className="bordered-btn users-weather-btn"
+            />
             <Switch>
               <Route
                 exact

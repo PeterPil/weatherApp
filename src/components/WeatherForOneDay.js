@@ -13,9 +13,6 @@ class WeatherForOneDay extends Component {
     const data = this.props.weatherList.filter(
       item => item.dt_txt.split(" ")[0] === this.props.match.params.date
     );
-    if (!data.length) {
-      return <div>Error </div>;
-    }
     return (
       <RoutedCarousel
         weather={{
@@ -24,6 +21,7 @@ class WeatherForOneDay extends Component {
           weatherType: "today",
           weatherDay: data[0].dt_txt
         }}
+        isError={this.props.isError}
       />
     );
   }
@@ -32,7 +30,8 @@ class WeatherForOneDay extends Component {
 function mapStateToProps(state) {
   return {
     weatherList: state.weatherReducer.list,
-    city: state.weatherReducer.city
+    city: state.weatherReducer.city,
+    isError: state.errorReducer.isError
   };
 }
 

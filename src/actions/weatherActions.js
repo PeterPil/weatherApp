@@ -15,13 +15,17 @@ export const fetchWeather = searchValue => {
         url.searchParams.append(key, params[key])
       );
       dispatch({ type: "IS_LOADING_FETCH" });
+      dispatch({ type: "RESET_ERROR" });
+
       const apiResponse = await fetch(url);
       const res = await apiResponse.json();
-                dispatch({ type: "RESET_LOADING" });
+      dispatch({ type: "RESET_LOADING" });
 
       if (Number.parseInt(res.cod) < 500) {
         const { cod, city, list } = res;
         if (Number.parseInt(cod) === 404) {
+          dispatch({ type: "SET_WEATHER_LIST_ERROR" });
+
           toast.error("Enter correct town");
         }
         if (Number.parseInt(cod) === 200) {

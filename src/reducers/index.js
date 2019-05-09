@@ -5,13 +5,15 @@ import { firestoreReducer } from "redux-firestore";
 
 import weatherReducer from "./weatherReducer";
 import loaderReducer from "./loaderReducer";
+import errorReducer from "./errrorReducer";
 
 const reducers = combineReducers({
   firebase: firebaseReducer,
   firestore: firestoreReducer,
   routing: routerReducer,
   weatherReducer,
-  loaderReducer
+  loaderReducer,
+  errorReducer
 });
 
 export default reducers;

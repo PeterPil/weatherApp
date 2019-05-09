@@ -4,7 +4,7 @@ import { format } from "date-fns";
 
 function renderDate(weather) {
   if (weather.weatherType === "today") {
-    return format(weather.weatherDay, "DD");
+    return format(weather.weatherDay, "DD.MM.YYYY");
   } else {
     return null;
   }
@@ -16,7 +16,7 @@ export default function CarouselItem(props) {
     <section className="weather-cards">
       <h2 className="weather-cards__title">
         {weather.city.name},{weather.city.country}
-        {renderDate(weather)}
+        {"  "}{renderDate(weather)}
       </h2>
       <div className="row">
         <div className="weather-cards-content">

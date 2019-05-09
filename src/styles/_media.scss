@@ -19,8 +19,12 @@
       right: 15px;
     }
   }
+  .users-weather__title {
+    margin-bottom: 0;
+  }
   .users-weather-btn {
-    top: 35px;
+    position: relative;
+    margin: 15px 0;
   }
 }
 

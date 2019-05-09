@@ -2,8 +2,8 @@
   width: 100%;
   display: inline-flex;
   justify-content: space-between;
-  height: 150px;
-  line-height: 150px;
+  height: 100px;
+  line-height: 100px;
 
   &__logo {
     font-size: 50px;
@@ -25,7 +25,7 @@
     &__btn {
       font-weight: bold;
       margin-left: 20px;
-      font-size: 24px;
+      font-size: 28px;
       color: #fff;
       cursor: pointer;
     }
@@ -33,7 +33,7 @@
       cursor: pointer;
 
       font-weight: bold;
-      font-size: 18px;
+      font-size: 20px;
       color: #fff;
     }
   }
