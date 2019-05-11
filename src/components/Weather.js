@@ -9,7 +9,6 @@ import Registration from "./Registration";
 import { firestoreConnect } from "react-redux-firebase";
 import { compose } from "redux";
 import PrivateRoute from "./PrivateRoute";
-import Loader from "react-loader-spinner";
 
 class Weather extends Component {
   componentWillMount() {

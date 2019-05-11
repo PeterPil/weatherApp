@@ -12,20 +12,20 @@ class WeatherForOneDay extends Component {
   }
   render() {
     const data = this.props.weatherList.filter(
-      item => {
-        console.log(format(item.dt_txt, "YYYY-DD-HH"), this.props.match.params.date);
-        // console.log(item.dt_txt);
-        return format(item.dt_txt, "YYYY-DD-HH") === this.props.match.params.date
-      }
+      item => format(item.dt_txt, "YYYY-MM-DD") === this.props.match.params.date
     );
-    // console.log(format(new Date(this.props.match.params.date), "YYYY-DD-HH"));
+    if (!data.length) {
+      return (
+        <p className="weather-search__error">No weather for this date</p>
+      )
+    }
     return (
       <RoutedCarousel
         weather={{
           list: data,
           city: this.props.city,
           weatherType: "today",
-          weatherDay: format(new Date(this.props.match.params.date), "YYYY-DD-HH")
+          weatherDay: format(new Date(this.props.match.params.date), "YYYY-MM-DD HH:MM:DD")
         }}
         isError={this.props.isError}
       />

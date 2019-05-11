@@ -66,7 +66,7 @@ export const signOut = () => {
   return async (dispatch, getState, { firebase }) => {
     try {
       dispatch({ type: "IS_LOADING" });
-      const response = await firebase.auth().signOut();
+      await firebase.auth().signOut();
       dispatch({ type: "RESET_LOADING" });
       toast.success(`You are logged out`);
     } catch (err) {

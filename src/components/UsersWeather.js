@@ -5,7 +5,7 @@ import { compose } from "redux";
 import UsersCard from "./UsersCard";
 import { withRouter } from "react-router";
 import AliceCarousel from "react-alice-carousel";
-import { Redirect, Route, Switch } from "react-router";
+import { Route, Switch } from "react-router";
 import AddTownCard from "./AddTownCard";
 import UserPrevButton from "./UserPrevButton";
 import WeatherCards from "./WeatherCards";
@@ -32,13 +32,7 @@ class UsersWeather extends Component {
   state = {
     townName: ""
   };
-
-  setUrlPath = name => {
-    this.setState({
-      townName: name
-    });
-  };
-
+  
   renderCards() {
     return this.props.usersTown
       ? this.props.usersTown.town.map(town => (

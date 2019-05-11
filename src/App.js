@@ -3,7 +3,6 @@ import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import { ReactReduxFirebaseProvider } from "react-redux-firebase";
 
-import Weather from "./components/Weather";
 import store from "./store/store";
 import rrfProps from "./Firebase/rrfProps";
 import { toast, ToastContainer } from "react-toastify";

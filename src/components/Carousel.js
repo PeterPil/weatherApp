@@ -1,12 +1,8 @@
 import React, { Component } from "react";
-import { format } from "date-fns";
-import WeatherCardsCarousel from "./WeatherCardsCarousel";
 import connect from "react-redux/es/connect/connect";
 import { weatherActions } from "../actions";
 import { withRouter } from "react-router";
-import Loader from "react-loader-spinner";
 import CarouselItemHOCLoader from "./CarouselHOCLoader";
-import CarouselItem from "./CarouselItem";
 
 class Carousel extends Component {
   componentDidMount() {
@@ -33,7 +29,9 @@ class Carousel extends Component {
   render() {
     const { weather, isError } = this.props;
     return isError ? (
-      <p className="weather-search__error">404 Not Found</p>
+      <p className="weather-search__error">
+        No weather for {this.props.match.params.townId}
+      </p>
     ) : (
       <CarouselItemHOCLoader weather={weather} />
     );
