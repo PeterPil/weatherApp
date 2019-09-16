@@ -23,6 +23,7 @@ class AddTownCard extends Component {
   };
 
   handleChange = e => {
+    // Check access
     this.setState({
       addedTown: e.target.value
     });
